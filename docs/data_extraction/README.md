@@ -11,4 +11,4 @@
 
 ## Some Useful Features 
 - [ ] Store invalid papers for future inspection and decide if they should be included due to error
-- [ ] Download Kaggle dataset first and progressively create a new dataset with saved values (Kaggle dataset is static, procced one is not) that can be stopped and started at will
+- [ ] Download Kaggle dataset first and progressively create a new dataset with saved values (Kaggle dataset is static, processed one is not) that can be stopped and started at will
