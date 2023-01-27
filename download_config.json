@@ -2,5 +2,8 @@
     "site": "https://kaggle.com/find-the-dataset",
     "data_folder": "./data",
     "dataset_name": "arxiv_ds",
-    "processed_name": "arxiv_processed"
+    "processed_name": "arxiv_processed",
+    "train_percent": 0.7,
+    "val_percent": 0.1,
+    "random_seed": 42
 }
