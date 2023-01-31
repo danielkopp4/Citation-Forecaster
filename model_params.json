@@ -5,10 +5,16 @@
     "beta_2": 0.999,
     "batch_size": 2,
     "alpha": 0.3,
+    "print_freq": 2,
+    "plot_freq": 2,
+    "checkpoint_freq": 5,
     "data_path": "./data/arxiv_processed",
-    "save_dir": "trained_models",
     "ds_format": "npy",
     "model_name": "train_1",
+    "log_dir": "./logs",
     "load_prev": false,
-    "prev_name": ""
+    "prev_dir": "./models/train_1/checkpoint",
+    "prev_name": "trained_model_8",
+    "models_dir": "./models",
+    "inherit": ["alpha"]
 }

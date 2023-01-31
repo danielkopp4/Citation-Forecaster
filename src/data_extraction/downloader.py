@@ -9,7 +9,7 @@ def preprocess_data(data_path: str, params: dict):
 def download_data(params: dict):
     pass
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     file_name = sys.argv[1]
     params = load_params(file_name)
     download_data(params)

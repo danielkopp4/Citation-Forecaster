@@ -15,9 +15,9 @@ import sys
 
 def load_paper_data(params: dict) -> pd.DataFrame:
     return pd.DataFrame({
-        "title": ["titles", "c", "a", "titles", "c", "a", "titles", "c", "a", "titles"],
-        "abstract": ["an abstract", "b", "f", "an abstract", "b", "f", "an abstract", "b", "f", "f"],
-        "journal": ["Nature", "random", "other", "Nature", "random", "other", "Nature", "random", "other", "a"]
+        'title': ['titles', 'c', 'a', 'titles', 'c', 'a', 'titles', 'c', 'a', 'titles'],
+        'abstract': ['an abstract', 'b', 'f', 'an abstract', 'b', 'f', 'an abstract', 'b', 'f', 'f'],
+        'journal': ['Nature', 'random', 'other', 'Nature', 'random', 'other', 'Nature', 'random', 'other', 'a']
     })
 
 
@@ -26,8 +26,7 @@ def load_citations(params: dict) -> np.ndarray:
 
 
 def save_data(location: str, data: np.ndarray):
-    np.save(location + ".npy", data)
-    # np.savetxt(location + ".txt", data)
+    np.save(location + '.npy', data)
 
 
 def journal_pre_transform(journal: str) -> str:
@@ -36,26 +35,26 @@ def journal_pre_transform(journal: str) -> str:
 
 # when called preprocess the dataset
 def preprocess_data(params: dict):
-    print("load papers and citations")
+    print('load papers and citations')
     paper_df = load_paper_data(params)
     citations = load_citations(params)
     # not found citations should be na
     assert len(paper_df) == len(citations)
 
-    print("get SBERT model")
+    print('get SBERT model')
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
-    print("transform journal")
+    print('transform journal')
     journals = paper_df['journal'].transform(journal_pre_transform)
     journals = OneHotEncoder(sparse=False).fit_transform(journals.values.reshape(-1, 1))
 
-    print("transform titles")
+    print('transform titles')
     titles = model.encode(paper_df['title'].tolist())
     
-    print("transform abstracts")
+    print('transform abstracts')
     abstracts = model.encode(paper_df['abstract'].tolist())
 
-    print("concatenate")
+    print('concatenate')
     final_data = np.array([np.concatenate((
         title, 
         abstract, 
@@ -64,7 +63,7 @@ def preprocess_data(params: dict):
         for title, abstract, journal, citation in zip(titles, abstracts, journals, citations)
     ])
 
-    print("shuffle and split")
+    print('shuffle and split')
     np.random.seed(params['random_seed'])
     np.random.shuffle(final_data)
 
@@ -76,24 +75,24 @@ def preprocess_data(params: dict):
     val_data = final_data[train_index:val_index]
     test_data = final_data[val_index:]
 
-    print("scale")
+    print('scale')
     scaler = StandardScaler()
     train_data[:,:-1] = scaler.fit_transform(train_data[:,:-1])
     val_data[:,:-1] = scaler.transform(val_data[:,:-1])
     test_data[:,:-1] = scaler.transform(test_data[:,:-1])
 
-    print("save")
+    print('save')
     loc = os.path.join(params['data_folder'], params['processed_name'])
 
     if not os.path.exists(loc):
         os.mkdir(loc)
 
-    save_data(os.path.join(loc, "train"), train_data)
-    save_data(os.path.join(loc, "val"), val_data)
-    save_data(os.path.join(loc, "test"), test_data)
+    save_data(os.path.join(loc, 'train'), train_data)
+    save_data(os.path.join(loc, 'val'), val_data)
+    save_data(os.path.join(loc, 'test'), test_data)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     file_name = sys.argv[1]
     params = load_params(file_name)
     preprocess_data(params)

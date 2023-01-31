@@ -1,0 +1,27 @@
+model params:
+{'alpha': 0.3,
+ 'batch_size': 2,
+ 'beta_1': 0.9,
+ 'beta_2': 0.999,
+ 'checkpoint_freq': 5,
+ 'data_path': './data/arxiv_processed',
+ 'ds_format': 'npy',
+ 'epochs': 10,
+ 'inherit': ['alpha'],
+ 'learning_rate': 0.01,
+ 'load_prev': False,
+ 'log_dir': './logs',
+ 'model_name': 'train_1',
+ 'models_dir': './models',
+ 'plot_freq': 2,
+ 'prev_dir': './models/train_1/checkpoint',
+ 'prev_name': 'trained_model_8',
+ 'print_freq': 2}
+==============================| Starting Training |==============================
+[Epoch: 0] [loss: 54.04] [mean_absolute_error: 5.76] [Time: 17:17:16] [Day: 01/31/2023]
+[Epoch: 2] [loss: 43.42] [mean_absolute_error: 6.02] [Time: 17:17:18] [Day: 01/31/2023]
+[Epoch: 4] [loss: 35.11] [mean_absolute_error: 4.18] [Time: 17:17:18] [Day: 01/31/2023]
+[Epoch: 6] [loss: 29.49] [mean_absolute_error: 4.92] [Time: 17:17:18] [Day: 01/31/2023]
+[Epoch: 8] [loss: 23.72] [mean_absolute_error: 4.26] [Time: 17:17:19] [Day: 01/31/2023]
+==============================| Finished Training |==============================
+[loss: 141.84] [mean_absolute_error: 11.81] [Time: 17:17:19] [Day: 01/31/2023]

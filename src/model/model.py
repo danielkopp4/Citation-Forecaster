@@ -1,10 +1,13 @@
 from src.data_extraction.dataset_api import Dataset
 from tensorflow.keras import Model, Input
+from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import Dense, LeakyReLU
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics import MeanAbsoluteError
 from src.model.callback import TrainingCallback
 import os
+import json
+import pprint
 
 class Forecaster:
     def __init__(self, params: dict):
@@ -60,7 +63,47 @@ class Forecaster:
 
 
     def __load_model(self):
-        assert False
+        params_loc = os.path.join(self._params['prev_dir'], 'params.json')
+        model_loc = os.path.join(self._params['prev_dir'], self._params['prev_name'])
+
+        with open(params_loc, 'r') as file:
+            old_params = json.load(file)
+
+        for inherited in self._params['inherit']:
+            self._params[inherited] = old_params[inherited]
+
+        self._model = load_model(model_loc, compile=False)
+
+
+    def __save_model(self, epoch=None):
+        if not os.path.exists(self._params['models_dir']):
+            os.mkdir(self._params['models_dir'])
+
+        model_dir = os.path.join(self._params['models_dir'], self._params['model_name'])
+
+        if not os.path.exists(model_dir):
+            os.mkdir(model_dir)
+
+        if epoch == None:
+            # final
+            model_dir = os.path.join(model_dir, 'final')
+        else:
+            # checkpoint
+            model_dir = os.path.join(model_dir, 'checkpoint')
+
+        if not os.path.exists(model_dir):
+            os.mkdir(model_dir)
+
+        # with open()
+        params_loc = os.path.join(model_dir, 'params.json')
+        model_loc = os.path.join(model_dir, f'trained_model')
+        if epoch != None:
+            model_loc += f'_{epoch}'
+
+        with open(params_loc, 'w') as file:
+            json.dump(self._params, file)
+
+        self.keras_model.save(model_loc, include_optimizer=False)
 
 
     def __compile_model(self):
@@ -77,20 +120,39 @@ class Forecaster:
         )
 
 
+    def print_params(self):
+        print("model params:")
+        pprint.pprint(self._params)
+        
+
     def train(self):
+        print(30*'=', '|', ' Starting Training ', '|',  30*'=', sep='')
         self.keras_model.fit(
             self._datasets['train'],
             batch_size=self.batch_size,
             epochs=self._params['epochs'],
             validation_data=self._datasets['val'],
-            verbose='none',
-            callbacks=[TrainingCallback()]
+            verbose=0,
+            callbacks=[TrainingCallback(
+                self._params['log_dir'], 
+                self._params['model_name'], 
+                plot_freq=self._params['plot_freq'],
+                print_freq=self._params['print_freq'],
+                checkpoint_freq=self._params['checkpoint_freq'],
+                checkpoint_fn=lambda epoch: self.__save_model(epoch)
+            )]
         )
 
+        self.__save_model()
+
+        print(30*'=', '|', ' Finished Training ', '|',  30*'=', sep='')
         self.keras_model.evaluate(
             self._datasets['test'],
-            verbose='none',
-            callbacks=[TrainingCallback()]
+            verbose=0,
+            callbacks=[TrainingCallback(
+                self._params['log_dir'], 
+                self._params['model_name']
+            )]
         )
 
 
