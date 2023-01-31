@@ -1,6 +1,8 @@
 from src.shared.utils import load_params
 import sys
 
+def preprocess_data(data_path: str, params: dict):
+    pass
 
 # when called downloads and parses the dataset
 # for future use in the dataset_api
