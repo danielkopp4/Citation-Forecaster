@@ -6,8 +6,6 @@ import pandas as pd
 import numpy as np
 import sys
 
-
-
 # data we need
 # title, abstract, journal, and add in citation # to the csv
 # title -> sbert
@@ -22,15 +20,19 @@ def load_paper_data(params: dict) -> pd.DataFrame:
         "journal": ["Nature", "random", "other", "Nature", "random", "other", "Nature", "random", "other", "a"]
     })
 
+
 def load_citations(params: dict) -> np.ndarray:
     return np.arange(10)
+
 
 def save_data(location: str, data: np.ndarray):
     np.save(location + ".npy", data)
     # np.savetxt(location + ".txt", data)
 
+
 def journal_pre_transform(journal: str) -> str:
     return journal.lower()
+
 
 # when called preprocess the dataset
 def preprocess_data(params: dict):
@@ -74,13 +76,11 @@ def preprocess_data(params: dict):
     val_data = final_data[train_index:val_index]
     test_data = final_data[val_index:]
 
-    scaler = StandardScaler()
-
     print("scale")
+    scaler = StandardScaler()
     train_data[:,:-1] = scaler.fit_transform(train_data[:,:-1])
     val_data[:,:-1] = scaler.transform(val_data[:,:-1])
     test_data[:,:-1] = scaler.transform(test_data[:,:-1])
-
 
     print("save")
     loc = os.path.join(params['data_folder'], params['processed_name'])

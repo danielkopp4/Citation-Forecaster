@@ -3,9 +3,11 @@
     "learning_rate": 0.01,
     "beta_1": 0.9,
     "beta_2": 0.999,
-    "batch_size": 256,
+    "batch_size": 2,
+    "alpha": 0.3,
     "data_path": "./data/arxiv_processed",
     "save_dir": "trained_models",
+    "ds_format": "npy",
     "model_name": "train_1",
     "load_prev": false,
     "prev_name": ""
