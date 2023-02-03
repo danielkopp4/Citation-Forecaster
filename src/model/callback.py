@@ -19,7 +19,7 @@ class TrainingCallback(Callback):
             checkpoint_fn: FunctionType = None
         ):
 
-        self._log_path = os.path.join(log_dir, model_name)
+        self._log_path: str = os.path.join(log_dir, model_name)
         if not os.path.exists(log_dir):
             os.mkdir(log_dir)
 
@@ -42,7 +42,7 @@ class TrainingCallback(Callback):
             fig = px.line(self._train_info, x='epoch', y=plot_type)
             fig.write_image(os.path.join(self._log_path, '{}.png'.format(plot_type)))
 
-        self._train_info.to_csv(os.path.join(self._log_path, 'log_data.csv'))
+        self._train_info.to_csv(os.path.join(self._log_path, 'log_data.csv'), index=False)
 
 
     def get_datapoint(self, epoch, logs):
@@ -68,7 +68,7 @@ class TrainingCallback(Callback):
 
 
     def on_epoch_end(self, epoch, logs=None):
-        self._train_info = self._train_info.append(pd.DataFrame(self.get_datapoint(epoch, logs)))
+        self._train_info: pd.DataFrame = self._train_info.append(pd.DataFrame(self.get_datapoint(epoch, logs)))
         if epoch % self._print_freq == 0:
             self.print_log(logs, epoch)
 
