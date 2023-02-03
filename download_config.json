@@ -1,9 +1,6 @@
 {
-    "data_set": "Cornell-University/arxiv",
-    "json_file": "'arxiv-metadata-oai-snapshot.json'",
     "data_folder": "./data",
-    "dataset_name": "arxiv_ds",
-    "processed_name": "arxiv-metadata-oai-snapshot.json",
-    "data_link": "https://www.kaggle.com/datasets/Cornell-University/arxiv",
-    "initial_data_location": "./arxiv/arxiv-metadata-oai-snapshot.json"
+    "dataset_folder": "arxiv_ds",
+    "processed_name": "arxiv_processed",
+    "data_link": "https://www.kaggle.com/datasets/Cornell-University/arxiv"
 }
