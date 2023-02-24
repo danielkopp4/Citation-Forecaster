@@ -1,26 +1,51 @@
-from scholarly import scholarly
-from scholarly import scholarly, ProxyGenerator
+from requests import get
+from threading import Thread
+import numpy as np
+from fp.fp import FreeProxy
 import time
-# Retrieve the author's data, fill-in, and print
-# Get an iterator for the author results
-pg = ProxyGenerator()
-# success = pg.Tor_Internal(tor_cmd="tor")
-success = pg.FreeProxies()
-print("sucess", success)
-scholarly.use_proxy(pg)
-
-def get_citation(doi):
-    search_query = scholarly.search_pubs(doi)
-    current = scholarly.fill(next(search_query))
-    return current['num_citations']
 
 
-iters = 100
-prev_time = time.time()
+iters = 400
+batch = 40
+interval = 2
+complete = np.zeros((iters,)).astype(np.bool_)
 
-[get_citation("10.1103/PhysRevD.76.013009") for _ in range(iters)]
+def get_citation(id, doi):
+    proxy = FreeProxy().get()
+    proxies = {
+        "http": proxy
+    }
+    # API_CALL = "https://opencitations.net/index/api/v1/citation-count/{}".format(doi)
+    url = f"http://api.crossref.org/works/{doi}"
+    try:
+        citationNumber = get(url, proxies=proxies)
+    except:
+        print("proxy didnt work")
+        complete[id] = True
+        return
+   
 
-print("seconds", time.time() - prev_time)
+
+
+
+
+# [start_thread(id, "10.1103/PhysRevD.76.013009") for id in range(iters)]
+# [start_thread(id, "10.1103/PhysRevD.76.013009") for id in range(iters)]
+
+dois = ["10.1103/PhysRevD.76.013009" for _ in range(iters)]
+for id, doi in enumerate(dois):
+    if id % batch == 0:
+        time.sleep(interval)
+
+    start_thread(id, doi)
+
+
+
+
+while np.any(complete == False):
+    time.sleep(0.1)
+
+print("req per second", (time.time() - prev_time) / iters)
 
 # pg = ProxyGenerator()
 # scholarly.pprint(next(search_query))
