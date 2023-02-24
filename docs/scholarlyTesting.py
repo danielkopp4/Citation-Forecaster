@@ -23,7 +23,29 @@ def get_citation(id, doi):
         print("proxy didnt work")
         complete[id] = True
         return
-   
+    # return citationNumber.json()[0]["count"]
+    # assert(citationNumber.json()[0]['count'] == 46)
+    # print(citationNumber.json())
+    if citationNumber.status_code != 200:
+        print("got rate limited")
+        print(citationNumber.raw)
+        complete[id] = True
+        return
+
+    count = int(citationNumber.json()['message']['reference-count'])
+    if count != 46:
+        print('err', count)
+
+    complete[id] = True
+
+
+
+def start_thread(id, doi):
+    Thread(target=get_citation, args=(id, doi)).start()
+
+
+
+prev_time = time.time()
 
 
 
