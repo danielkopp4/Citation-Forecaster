@@ -17,35 +17,45 @@ def get_citation(id: int, doi: List[str], proxy: str) -> None:
     }
     # API_CALL = "https://opencitations.net/index/api/v1/citation-count/{}".format(doi)
 
-    for curDoi in doi:
+    for i, curDoi in enumerate(doi):
+        print(complete)
         url = f"http://api.crossref.org/works/{curDoi}"
         try:
             citationNumber = get(url, proxies=proxies)
+        except ProxyError as e:
+            if e == "Cannot connect to proxy.":
+                proxy = proxy = FreeProxy().get()
+                proxies = {
+                    "http": proxy
+                }
+                
+
+            print("got some sort of error")
+            print(e)
+            complete[id+i] = True
+            continue
         except Exception as e:
             print("got some sort of error")
             print(e)
-            complete[id] = True
-            return
+            complete[id+i] = True
+            continue
         # return citationNumber.json()[0]["count"]
         # assert(citationNumber.json()[0]['count'] == 46)
         # print(citationNumber.json())
         if citationNumber.status_code != 200:
             print("got rate limited")
             print(citationNumber.raw)
-            complete[id] = True
-            return
-    
-
+            complete[id+i] = True
+            continue
         count = int(citationNumber.json()['message']['reference-count'])
         if count != 46:
             print('err', count)
-
-        complete[id] = True
+        complete[id+i] = True
 
 
 def start_thread(id, doi, proxy):
     
-    Thread(target=get_citation, args=(id, doi[id:id+40], proxy)).start()
+    Thread(target=get_citation, args=(id, doi, proxy)).start()
 
 
 
@@ -62,7 +72,7 @@ dois = ["10.1103/PhysRevD.76.013009" for _ in range(iters)]
 for id, doi in enumerate(dois):
     if id % batch == 0:
         proxy = FreeProxy().get()
-        start_thread(id, doi, proxy)
+        start_thread(id, doi[id:id+40], proxy)
         time.sleep(interval)
 
     
