@@ -3,6 +3,7 @@ from threading import Thread
 import numpy as np
 from fp.fp import FreeProxy
 import time
+from typing import List
 
 
 iters = 400
@@ -10,12 +11,13 @@ batch = 40
 interval = 2
 complete = np.zeros((iters,)).astype(np.bool_)
 
-def get_citation(id, doi):
-    proxy = FreeProxy().get()
+def get_citation(id: int, doi: List[str], proxy: str) -> None:
     proxies = {
         "http": proxy
     }
     # API_CALL = "https://opencitations.net/index/api/v1/citation-count/{}".format(doi)
+
+    for i in range()
     url = f"http://api.crossref.org/works/{doi}"
     try:
         citationNumber = get(url, proxies=proxies)
@@ -39,9 +41,9 @@ def get_citation(id, doi):
     complete[id] = True
 
 
-
 def start_thread(id, doi):
-    Thread(target=get_citation, args=(id, doi)).start()
+    
+    Thread(target=get_citation, args=(id, doi, proxy)).start()
 
 
 
@@ -57,9 +59,11 @@ prev_time = time.time()
 dois = ["10.1103/PhysRevD.76.013009" for _ in range(iters)]
 for id, doi in enumerate(dois):
     if id % batch == 0:
+        proxy = FreeProxy().get()
+        start_thread(id, doi, proxy)
         time.sleep(interval)
 
-    start_thread(id, doi)
+    
 
 
 

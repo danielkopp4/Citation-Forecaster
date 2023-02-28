@@ -1,1 +1,1 @@
-# tmux -d python3 src/train.py
+tmux -d python3 src/train.py

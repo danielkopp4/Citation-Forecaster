@@ -12,7 +12,6 @@ def download_data(params: dict):
     dataset_link = params["data_link"]
     loc = os.path.join(params['data_folder'], params['dataset_folder'])
     od.download(dataset_link, data_dir=loc)
-
     search_query = scholarly.search_author('Steven A Cholewiak')
 
 
