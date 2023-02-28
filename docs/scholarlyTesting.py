@@ -6,7 +6,7 @@ import time
 from typing import List
 
 
-iters = 400
+iters = 80
 batch = 40
 interval = 2
 complete = np.zeros((iters,)).astype(np.bool_)
@@ -17,33 +17,35 @@ def get_citation(id: int, doi: List[str], proxy: str) -> None:
     }
     # API_CALL = "https://opencitations.net/index/api/v1/citation-count/{}".format(doi)
 
-    for i in range()
-    url = f"http://api.crossref.org/works/{doi}"
-    try:
-        citationNumber = get(url, proxies=proxies)
-    except:
-        print("proxy didnt work")
-        complete[id] = True
-        return
-    # return citationNumber.json()[0]["count"]
-    # assert(citationNumber.json()[0]['count'] == 46)
-    # print(citationNumber.json())
-    if citationNumber.status_code != 200:
-        print("got rate limited")
-        print(citationNumber.raw)
-        complete[id] = True
-        return
-
-    count = int(citationNumber.json()['message']['reference-count'])
-    if count != 46:
-        print('err', count)
-
-    complete[id] = True
-
-
-def start_thread(id, doi):
+    for curDoi in doi:
+        url = f"http://api.crossref.org/works/{curDoi}"
+        try:
+            citationNumber = get(url, proxies=proxies)
+        except Exception as e:
+            print("got some sort of error")
+            print(e)
+            complete[id] = True
+            return
+        # return citationNumber.json()[0]["count"]
+        # assert(citationNumber.json()[0]['count'] == 46)
+        # print(citationNumber.json())
+        if citationNumber.status_code != 200:
+            print("got rate limited")
+            print(citationNumber.raw)
+            complete[id] = True
+            return
     
-    Thread(target=get_citation, args=(id, doi, proxy)).start()
+
+        count = int(citationNumber.json()['message']['reference-count'])
+        if count != 46:
+            print('err', count)
+
+        complete[id] = True
+
+
+def start_thread(id, doi, proxy):
+    
+    Thread(target=get_citation, args=(id, doi[id:id+40], proxy)).start()
 
 
 
