@@ -1,0 +1,234 @@
+[False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b2bca0>
+[ True False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b340>
+[ True  True False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got some sort of error
+HTTPConnectionPool(host='13.75.216.118', port=3128): Max retries exceeded with url: http://api.crossref.org/works/ (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
+[ True  True  True False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b6a0>
+[ True  True  True  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106277880>
+[ True  True  True  True  True False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc1062800a0>
+[ True  True  True  True  True  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got some sort of error
+HTTPConnectionPool(host='13.75.216.118', port=3128): Max retries exceeded with url: http://api.crossref.org/works/3 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
+[ True  True  True  True  True  True  True False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106277520>
+[ True  True  True  True  True  True  True  True False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b1f0>
+[ True  True  True  True  True  True  True  True  True False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b670>
+[ True  True  True  True  True  True  True  True  True  True False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b910>
+[ True  True  True  True  True  True  True  True  True  True  True False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3ba30>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b9a0>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b520>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3bfa0>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b7f0>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got some sort of error
+'reference-count'
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b340>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got some sort of error
+HTTPConnectionPool(host='13.75.216.118', port=3128): Max retries exceeded with url: http://api.crossref.org/works/6 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got some sort of error
+'reference-count'
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b970>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3ba90>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b5b0>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b850>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b190>
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False]
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7fc106b3b1c0>

@@ -4,6 +4,8 @@ import numpy as np
 from fp.fp import FreeProxy
 import time
 from typing import List
+import requests.exceptions
+import requests.packages
 
 
 iters = 80
@@ -22,18 +24,31 @@ def get_citation(id: int, doi: List[str], proxy: str) -> None:
         url = f"http://api.crossref.org/works/{curDoi}"
         try:
             citationNumber = get(url, proxies=proxies)
-        except ProxyError as e:
-            if e == "Cannot connect to proxy.":
-                proxy = proxy = FreeProxy().get()
-                proxies = {
-                    "http": proxy
-                }
+        # except ProxyError as e:
+        #     if e == "Cannot connect to proxy.":
+        #         proxy = proxy = FreeProxy().get()
+        #         proxies = {
+        #             "http": proxy
+        #         }
                 
 
-            print("got some sort of error")
-            print(e)
+        #     print("got some sort of error")
+        #     print(e)
+        #     complete[id+i] = True
+        #     continue
+            # print(citationNumber.json())
+            # return
+            if citationNumber.status_code != 200:
+                print("got rate limited")
+                print(citationNumber.raw)
+                complete[id+i] = True
+                continue
+            count = int(citationNumber.json()['message']['reference-count'])
+            if count != 46:
+                print('err', count)
             complete[id+i] = True
-            continue
+
+       
         except Exception as e:
             print("got some sort of error")
             print(e)
@@ -41,17 +56,7 @@ def get_citation(id: int, doi: List[str], proxy: str) -> None:
             continue
         # return citationNumber.json()[0]["count"]
         # assert(citationNumber.json()[0]['count'] == 46)
-        # print(citationNumber.json())
-        if citationNumber.status_code != 200:
-            print("got rate limited")
-            print(citationNumber.raw)
-            complete[id+i] = True
-            continue
-        count = int(citationNumber.json()['message']['reference-count'])
-        if count != 46:
-            print('err', count)
-        complete[id+i] = True
-
+        
 
 def start_thread(id, doi, proxy):
     
