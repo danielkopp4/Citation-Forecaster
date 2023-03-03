@@ -47,8 +47,12 @@ def get_citation(id: int, doi: List[str], proxy: str) -> None:
             if count != 46:
                 print('err', count)
             complete[id+i] = True
-
-       
+        
+        except ConnectionError as ce:
+            if (isinstance(ce.args[0], MaxRetryError) and
+                isinstance(ce.args[0].reason, urllib3_ProxyError)):
+                print("Need to make a new proxy")
+            continue
         except Exception as e:
             print("got some sort of error")
             print(e)
