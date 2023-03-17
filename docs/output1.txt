@@ -6,10 +6,8 @@
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f6208a390a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -17,10 +15,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066afe50>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -28,10 +24,7 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066708b0>
+YAYYYYY
 [ True  True  True False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -39,10 +32,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af040>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -50,10 +41,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066703a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -61,10 +50,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066afdc0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -72,10 +59,7 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f6206670520>
+YAYYYYY
 [ True  True  True  True  True  True  True False False False False False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -83,10 +67,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066afdc0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True False False False False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -94,10 +76,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af2e0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True False False False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -105,10 +85,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066afee0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True False False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -116,10 +94,7 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+YAYYYYY
 [ True  True  True  True  True  True  True  True  True  True  True False
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -127,10 +102,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066afe50>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
  False False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -138,10 +111,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True False False False False False False False False False False False
  False False False False False False False False False False False False
@@ -149,10 +120,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af0d0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True False False False False False False False False False False
  False False False False False False False False False False False False
@@ -160,10 +129,7 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+YAYYYYY
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True False False False False False False False False False
  False False False False False False False False False False False False
@@ -171,10 +137,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066afdf0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True False False False False False False False False
  False False False False False False False False False False False False
@@ -182,10 +146,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True False False False False False False False
  False False False False False False False False False False False False
@@ -193,10 +155,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066afcd0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True False False False False False False
  False False False False False False False False False False False False
@@ -204,10 +164,7 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+YAYYYYY
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True False False False False False
  False False False False False False False False False False False False
@@ -215,10 +172,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af340>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True False False False False
  False False False False False False False False False False False False
@@ -226,10 +181,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True False False False
  False False False False False False False False False False False False
@@ -237,10 +190,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af9a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True False False
  False False False False False False False False False False False False
@@ -248,10 +199,7 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+YAYYYYY
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True False
  False False False False False False False False False False False False
@@ -259,10 +207,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af9a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
  False False False False False False False False False False False False
@@ -270,10 +216,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True False False False False False False False False False False False
@@ -281,10 +225,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af9a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True False False False False False False False False False False
@@ -292,10 +234,7 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+YAYYYYY
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True False False False False False False False False False
@@ -303,10 +242,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af9a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True False False False False False False False False
@@ -314,10 +251,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True False False False False False False False
@@ -325,10 +260,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af9a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True False False False False False False
@@ -336,10 +269,7 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+YAYYYYY
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True False False False False False
@@ -347,10 +277,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af9a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True False False False False
@@ -358,10 +286,7 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+YAYYYYY
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True False False False
@@ -369,10 +294,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af9a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True False False
@@ -380,10 +303,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True False
@@ -391,10 +312,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af9a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -402,10 +321,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -413,10 +330,7 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af9a0>
+YAYYYYY
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -424,10 +338,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af280>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -435,10 +347,8 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-503
-http://api.crossref.org/works/10.1103/PhysRevD.76.013009
-got rate limited
-<urllib3.response.HTTPResponse object at 0x7f62066af9a0>
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 ['10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009', '10.1103/PhysRevD.76.013009']
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -447,6 +357,18 @@ got rate limited
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
+503
+http://api.crossref.org/works/10.1103/PhysRevD.76.013009
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7f47cdc30310>
+503
+http://api.crossref.org/works/10.1103/PhysRevD.76.013009
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7f47cdc13dc0>
+500
+http://api.crossref.org/works/10.1103/PhysRevD.76.013009
+got rate limited
+<urllib3.response.HTTPResponse object at 0x7f47cdcbc460>
 YAYYYYY
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -471,7 +393,8 @@ YAYYYYY
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -479,7 +402,8 @@ YAYYYYY
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -487,7 +411,8 @@ YAYYYYY
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -503,7 +428,8 @@ YAYYYYY
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -511,7 +437,8 @@ YAYYYYY
  False False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -519,7 +446,8 @@ YAYYYYY
   True False False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -527,7 +455,8 @@ YAYYYYY
   True  True False False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -535,7 +464,8 @@ YAYYYYY
   True  True  True False False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -543,7 +473,8 @@ YAYYYYY
   True  True  True  True False False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -551,7 +482,8 @@ YAYYYYY
   True  True  True  True  True False False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -559,7 +491,8 @@ YAYYYYY
   True  True  True  True  True  True False False False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -575,7 +508,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True False False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -583,7 +517,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True False False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -591,7 +526,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True False False
  False False False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -623,7 +559,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True False False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -631,7 +568,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True False False False False False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -663,7 +601,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True False False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -671,7 +610,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True False False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -679,7 +619,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True False False False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -695,7 +636,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True False
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -703,7 +645,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
  False False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -711,7 +654,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True False False False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -727,7 +671,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True False False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -735,7 +680,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True False False False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -751,7 +697,8 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True False False]
-YAYYYYY
+got some sort of error
+HTTPConnectionPool(host='157.245.27.9', port=3128): Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')))
 [ True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True  True  True  True  True  True
@@ -760,3 +707,4 @@ YAYYYYY
   True  True  True  True  True  True  True  True  True  True  True  True
   True  True  True  True  True  True  True False]
 YAYYYYY
+req per second 0.7170725643634797

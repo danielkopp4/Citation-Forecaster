@@ -42,13 +42,24 @@ def get_citation(id: int, doi: List[str], proxy: str) -> None:
         #     continue
             # print(citationNumber.json())
             # return
-            if citationNumber.status_code != 200:
+            
+            while citationNumber.status_code != 200:
                 print(citationNumber.status_code)
                 print(url)
                 print("got rate limited")
                 print(citationNumber.raw)
                 complete[id+i] = True
-                continue
+                proxy = FreeProxy().get()
+                proxies = {
+                    "http": proxy
+                }
+                result = False
+                while result == False:
+                    try:
+                        citationNumber = get(url, proxies=proxies)
+                        result = True
+                    except:
+                        pass
             count = int(citationNumber.json()['message']['reference-count'])
             print("YAYYYYY")
             if count != 46:
