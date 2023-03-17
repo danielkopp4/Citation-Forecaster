@@ -5,7 +5,8 @@ from fp.fp import FreeProxy
 import time
 from typing import List
 import requests.exceptions
-import requests.packages
+from requests.packages.urllib3.exceptions import MaxRetryError
+from requests.packages.urllib3.exceptions import ProxyError as urllib3_ProxyError
 
 
 iters = 80
@@ -19,8 +20,11 @@ def get_citation(id: int, doi: List[str], proxy: str) -> None:
     }
     # API_CALL = "https://opencitations.net/index/api/v1/citation-count/{}".format(doi)
 
+    
+    print(doi)
     for i, curDoi in enumerate(doi):
         print(complete)
+        
         url = f"http://api.crossref.org/works/{curDoi}"
         try:
             citationNumber = get(url, proxies=proxies)
@@ -39,19 +43,25 @@ def get_citation(id: int, doi: List[str], proxy: str) -> None:
             # print(citationNumber.json())
             # return
             if citationNumber.status_code != 200:
+                print(citationNumber.status_code)
+                print(url)
                 print("got rate limited")
                 print(citationNumber.raw)
                 complete[id+i] = True
                 continue
             count = int(citationNumber.json()['message']['reference-count'])
+            print("YAYYYYY")
             if count != 46:
                 print('err', count)
             complete[id+i] = True
         
-        except ConnectionError as ce:
+        except urllib3_ProxyError as ce:
+
+        #except ConnectionError as ce:
             if (isinstance(ce.args[0], MaxRetryError) and
                 isinstance(ce.args[0].reason, urllib3_ProxyError)):
                 print("Need to make a new proxy")
+            complete[id+i] = True
             continue
         except Exception as e:
             print("got some sort of error")
@@ -81,7 +91,7 @@ dois = ["10.1103/PhysRevD.76.013009" for _ in range(iters)]
 for id, doi in enumerate(dois):
     if id % batch == 0:
         proxy = FreeProxy().get()
-        start_thread(id, doi[id:id+40], proxy)
+        start_thread(id, dois[id:id+40], proxy)
         time.sleep(interval)
 
     
