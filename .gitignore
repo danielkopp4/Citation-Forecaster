@@ -165,3 +165,4 @@ logs/
 .DS_Store
 .vscode/
 .logs/
+.kaggle/
