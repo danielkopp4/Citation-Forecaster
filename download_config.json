@@ -7,5 +7,6 @@
     "dataset_folder": "arxiv_ds",
     "output_file": "arxiv/arxiv-metadata-oai-snapshot.json",
     "target_name": "data.json",
+    "doi_tempfile": "complete.data",
     "data_link": "https://www.kaggle.com/datasets/Cornell-University/arxiv"
 }
