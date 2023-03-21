@@ -5,5 +5,7 @@
     "val_percent": 0.1,
     "random_seed": 42,
     "dataset_folder": "arxiv_ds",
+    "output_file": "arxiv/arxiv-metadata-oai-snapshot.json",
+    "target_name": "data.json",
     "data_link": "https://www.kaggle.com/datasets/Cornell-University/arxiv"
 }

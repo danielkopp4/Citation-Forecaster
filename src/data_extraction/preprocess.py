@@ -22,7 +22,7 @@ def load_paper_data(params: dict) -> pd.DataFrame:
 
 
 def load_citations(params: dict) -> np.ndarray:
-    return np.arange(10)
+    return np.arange(10) # [0,1,2,3,4,5,6,7,8,9]
 
 
 def save_data(location: str, data: np.ndarray):
