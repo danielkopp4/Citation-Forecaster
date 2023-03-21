@@ -4,9 +4,9 @@ import numpy as np
 from fp.fp import FreeProxy
 import time
 from typing import List
-import requests.exceptions
 from requests.packages.urllib3.exceptions import MaxRetryError
 from requests.packages.urllib3.exceptions import ProxyError as urllib3_ProxyError
+from requests.exceptions import ConnectionError
 
 
 iters = 80
@@ -57,24 +57,33 @@ def get_citation(id: int, doi: List[str], proxy: str) -> None:
                 while result == False:
                     try:
                         citationNumber = get(url, proxies=proxies)
+                        #if(citationNumber.status_code == 200):
+
                         result = True
-                    except:
+                        print("fixed... ", citationNumber.status_code, "..........")
+                    except Exception as r:
+                        print("NOOOOO")
+                        print(r)
                         pass
             count = int(citationNumber.json()['message']['reference-count'])
-            print("YAYYYYY")
+            print("YAYYYYY ... ", count)
             if count != 46:
                 print('err', count)
             complete[id+i] = True
         
-        except urllib3_ProxyError as ce:
+        #except urllib3_ProxyError as ce:
 
-        #except ConnectionError as ce:
-            if (isinstance(ce.args[0], MaxRetryError) and
-                isinstance(ce.args[0].reason, urllib3_ProxyError)):
-                print("Need to make a new proxy")
+        except ConnectionError as ce:
+            # if (isinstance(ce.args[0], MaxRetryError) and
+            #     isinstance(ce.args[0].reason, urllib3_ProxyError)):
+            #     print("Need to make a new proxy")
+            print("got good error")
             complete[id+i] = True
             continue
         except Exception as e:
+            #need to make a new proxy and try again, put this in the try above and then be able to restart the proxy to prevent max tries
+            #or can ignore as we wont have multiple of the same requests
+            #the error is  Max retries exceeded with url: http://api.crossref.org/works/10.1103/PhysRevD.76.013009 (Caused by ProxyError('Cannot connect to proxy.', RemoteDisconnected('Remote end closed connection without response')
             print("got some sort of error")
             print(e)
             complete[id+i] = True
@@ -99,6 +108,7 @@ prev_time = time.time()
 # [start_thread(id, "10.1103/PhysRevD.76.013009") for id in range(iters)]
 
 dois = ["10.1103/PhysRevD.76.013009" for _ in range(iters)]
+
 for id, doi in enumerate(dois):
     if id % batch == 0:
         proxy = FreeProxy().get()
