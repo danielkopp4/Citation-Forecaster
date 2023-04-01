@@ -111,6 +111,8 @@ def download_data(params: dict):
 
     save_complete(params, complete)
     print("req per second",  len(dois) / (time.time() - prev_time))
+    with open("status.txt", "w") as file:
+        file.write("DONE")
 
 
 
