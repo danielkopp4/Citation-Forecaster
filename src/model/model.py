@@ -94,7 +94,6 @@ class Forecaster:
         if not os.path.exists(model_dir):
             os.mkdir(model_dir)
 
-        # with open()
         params_loc = os.path.join(model_dir, 'params.json')
         model_loc = os.path.join(model_dir, f'trained_model')
         if epoch != None:

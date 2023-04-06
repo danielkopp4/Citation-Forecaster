@@ -14,6 +14,7 @@ import shutil
 from typing import List
 import json
 from datetime import timedelta
+import signal
 
 max_cutoff = np.inf
 batch = 100
@@ -45,11 +46,21 @@ def load_complete(params: dict, default_len: int) -> np.ndarray:
 
     filename = complete_filename(params)
     if os.path.exists(filename):
-        return np.loadtxt(filename)
+        with open("lines.txt", "r") as file:
+            lines = int(file.readline())
+
+        arr = np.loadtxt(filename)
+        if len(arr) != lines:
+            print("ERR LENGTH NOT EQUAL")
+            sys.exit(0)
 
     return np.zeros((default_len,)).astype(int)
 
-def save_complete(params: dict, complete: np.ndarray):
+def save_complete(params: dict, complete: np.ndarray, length: int):
+    if len(complete) != length:
+        print("ERR ON SAVE: len(complete) != length")
+        sys.exit(0)
+
     np.savetxt(complete_filename(params), complete.astype(int), fmt='%i', delimiter=",")
 
 def get_incomplete(complete: np.ndarray):
@@ -79,6 +90,7 @@ def download_data(params: dict):
     file_name = files[0]
     
     dois = get_dois(os.path.join(loc, file_name))
+    length = len(dois)
     complete = load_complete(params, len(dois))
     incomplete = get_incomplete(complete)
 
@@ -87,6 +99,17 @@ def download_data(params: dict):
     prev_time = time.time()
     prev_n_remaining = np.sum([1 if x == 0 else 0 for x in complete])
     iters = 0
+
+    def sigterm_handler(signal, frame):
+        save_complete(params, complete, length)
+        sys.exit(0)
+
+    # print(f"-- pid: {os.getpid()} --")
+    with open("pid.txt", "w") as file:
+        file.write(f"PID: {os.getpid()}\n")
+    signal.signal(signal.SIGTERM, sigterm_handler)
+    signal.signal(signal.SIGINT, sigterm_handler)
+
 
     while np.any(complete == False):
         if id < len(dois):
@@ -107,9 +130,9 @@ def download_data(params: dict):
         time_remaining = timedelta(seconds=int(time_remaining)) if not np.isinf(time_remaining) else "inf"
 
         print("\033[Kn remaining: {} | {:0.03f} req/s | {} seconds".format(n_remaining, rate, time_remaining), end="\r")
-        save_complete(params, complete)
+        save_complete(params, complete, length)
 
-    save_complete(params, complete)
+    save_complete(params, complete, length)
     print("req per second",  len(dois) / (time.time() - prev_time))
     with open("status.txt", "w") as file:
         file.write("DONE")
@@ -180,7 +203,7 @@ def get_citation(ids: List[int], dois: List[str], complete: np.ndarray) -> None:
         
 
 def start_thread(ids, dois, complete):
-    return Thread(target=get_citation, args=(ids, dois, complete)).start()
+    return Thread(target=get_citation, args=(ids, dois, complete), daemon=True).start()
 
 
 

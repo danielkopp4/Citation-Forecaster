@@ -59,7 +59,7 @@ class TrainingCallback(Callback):
             print(f'[{key}: {logs[key]:0.2f}] ', end='')
 
         now_time = datetime.now()
-        print(f'[Time: {now_time.strftime("%H:%M:%S")}] [Day: {now_time.strftime("%m/%d/%Y")}]')
+        print(f'[Time: {now_time.strftime("%H:%M:%S")}] [Day: {now_time.strftime("%m/%d/%Y")}]', flush=True)
 
 
     def checkpoint(self, epoch):
