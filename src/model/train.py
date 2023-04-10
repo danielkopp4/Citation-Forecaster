@@ -23,8 +23,8 @@ if __name__ == '__main__':
     if not os.path.exists(log_dir):
         os.mkdir(log_dir)
 
-    log_file = os.path.join(log_dir, "log_file.txt")
-    err_file = os.path.join(log_dir, "errors.txt")
+    log_file = os.path.join(log_dir, 'log_file.txt')
+    err_file = os.path.join(log_dir, 'errors.txt')
 
     with open(err_file, 'w') as error_log:
         with redirect_stderr(error_log):

@@ -46,22 +46,22 @@ def load_complete(params: dict, default_len: int) -> np.ndarray:
 
     filename = complete_filename(params)
     if os.path.exists(filename):
-        with open("lines.txt", "r") as file:
+        with open('lines.txt', 'r') as file:
             lines = int(file.readline())
 
         arr = np.loadtxt(filename)
         if len(arr) != lines:
-            print("ERR LENGTH NOT EQUAL")
+            print('ERR LENGTH NOT EQUAL')
             sys.exit(0)
 
     return np.zeros((default_len,)).astype(int)
 
 def save_complete(params: dict, complete: np.ndarray, length: int):
     if len(complete) != length:
-        print("ERR ON SAVE: len(complete) != length")
+        print('ERR ON SAVE: len(complete) != length')
         sys.exit(0)
 
-    np.savetxt(complete_filename(params), complete.astype(int), fmt='%i', delimiter=",")
+    np.savetxt(complete_filename(params), complete.astype(int), fmt='%i', delimiter=',')
 
 def get_incomplete(complete: np.ndarray):
     return np.arange(len(complete))[complete == 0]
@@ -75,17 +75,17 @@ def iterate_exp_average(current_val: float, moving_average: float, beta_1: float
 # for future use in the dataset_api
 def download_data(params: dict):
     loc = os.path.join(params['data_folder'], params['dataset_folder'])
-    files = [x for x in os.listdir(loc) if ".json" in x]
+    files = [x for x in os.listdir(loc) if '.json' in x]
 
     if len(files) == 0:
-        dataset_link = params["data_link"]
+        dataset_link = params['data_link']
         od.download(dataset_link, data_dir=loc)
 
         shutil.move(
             os.path.join(loc, params['output_file']), 
             os.path.join(loc, params['target_name'])
         )
-        files = [x for x in os.listdir(loc) if ".json" in x]
+        files = [x for x in os.listdir(loc) if '.json' in x]
 
     file_name = files[0]
     
@@ -104,9 +104,9 @@ def download_data(params: dict):
         save_complete(params, complete, length)
         sys.exit(0)
 
-    # print(f"-- pid: {os.getpid()} --")
-    with open("pid.txt", "w") as file:
-        file.write(f"PID: {os.getpid()}\n")
+    # print(f'-- pid: {os.getpid()} --')
+    with open('pid.txt', 'w') as file:
+        file.write(f'PID: {os.getpid()}\n')
     signal.signal(signal.SIGTERM, sigterm_handler)
     signal.signal(signal.SIGINT, sigterm_handler)
 
@@ -127,15 +127,15 @@ def download_data(params: dict):
         rate = iterate_exp_average(current_rate, rate, 0.97, 0.5, iters)
         iters += 1
         time_remaining = n_remaining / rate if rate > 1E-5 else np.inf
-        time_remaining = timedelta(seconds=int(time_remaining)) if not np.isinf(time_remaining) else "inf"
+        time_remaining = timedelta(seconds=int(time_remaining)) if not np.isinf(time_remaining) else 'inf'
 
-        print("\033[Kn remaining: {} | {:0.03f} req/s | {} seconds".format(n_remaining, rate, time_remaining), end="\r")
+        print('\033[Kn remaining: {} | {:0.03f} req/s | {} seconds'.format(n_remaining, rate, time_remaining), end='\r')
         save_complete(params, complete, length)
 
     save_complete(params, complete, length)
-    print("req per second",  len(dois) / (time.time() - prev_time))
-    with open("status.txt", "w") as file:
-        file.write("DONE")
+    print('req per second',  len(dois) / (time.time() - prev_time))
+    with open('status.txt', 'w') as file:
+        file.write('DONE')
 
 
 
@@ -143,9 +143,9 @@ def download_data(params: dict):
 def get_citation(ids: List[int], dois: List[str], complete: np.ndarray) -> None:
     proxy = FreeProxy().get()
     proxies = {
-        "http": proxy
+        'http': proxy
     }
-    # API_CALL = "https://opencitations.net/index/api/v1/citation-count/{}".format(doi)
+    # API_CALL = 'https://opencitations.net/index/api/v1/citation-count/{}'.format(doi)
 
     
     for id in ids:
@@ -155,14 +155,14 @@ def get_citation(ids: List[int], dois: List[str], complete: np.ndarray) -> None:
             continue
 
         
-        url = f"http://api.crossref.org/works/{curDoi}"
+        url = f'http://api.crossref.org/works/{curDoi}'
 
         success = False
         
         while not success:
             # rand_ip = socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff)))
-            rand_ip = "127.0.0.1"
-            headers = [[y.strip() for y in x.strip().split(":")] for x in f"""
+            rand_ip = '127.0.0.1'
+            headers = [[y.strip() for y in x.strip().split(':')] for x in f'''
             X-Originating-IP: {rand_ip}
             X-Forwarded-For: {rand_ip}
             X-Remote-IP: {rand_ip}
@@ -170,7 +170,7 @@ def get_citation(ids: List[int], dois: List[str], complete: np.ndarray) -> None:
             X-Client-IP: {rand_ip}
             X-Host: {rand_ip}
             X-Forwared-Host: {rand_ip}
-            """.strip().split("\n")]
+            '''.strip().split('\n')]
             headers = {x: y for x,y in headers}
 
             try:
@@ -181,7 +181,7 @@ def get_citation(ids: List[int], dois: List[str], complete: np.ndarray) -> None:
             except ConnectionError:
                 pass
             except Exception:
-                print("received unhandled error")
+                print('received unhandled error')
                 print(url)
                 traceback.print_exc(file=sys.stdout)
                 sys.exit()
@@ -189,14 +189,14 @@ def get_citation(ids: List[int], dois: List[str], complete: np.ndarray) -> None:
             if not success:
                 proxy = FreeProxy().get()
                 proxies = {
-                    "http": proxy
+                    'http': proxy
                 }
 
         try:
             count = int(citationNumber.json()['message']['reference-count'])
             complete[id] = count + 1 # important -> subtract by 1 when loading
         except Exception:
-            print("received unhandled error")
+            print('received unhandled error')
             print(citationNumber.text)
             print(url)
             traceback.print_exc(file=sys.stdout)

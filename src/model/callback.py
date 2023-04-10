@@ -68,7 +68,7 @@ class TrainingCallback(Callback):
 
 
     def on_epoch_end(self, epoch, logs=None):
-        self._train_info: pd.DataFrame = self._train_info.append(pd.DataFrame(self.get_datapoint(epoch, logs)))
+        self._train_info: pd.DataFrame = pd.concat([self._train_info, pd.DataFrame.from_records(self.get_datapoint(epoch, logs))])
         if epoch % self._print_freq == 0:
             self.print_log(logs, epoch)
 

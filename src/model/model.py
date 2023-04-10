@@ -1,7 +1,8 @@
 from src.data_extraction.dataset_api import Dataset
 from tensorflow.keras import Model, Input
 from tensorflow.keras.models import load_model
-from tensorflow.keras.layers import Dense, LeakyReLU
+from tensorflow.keras.layers import Dense, LeakyReLU, Concatenate, Add, BatchNormalization
+from tensorflow.keras.regularizers import L2
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics import MeanAbsoluteError
 from src.model.callback import TrainingCallback
@@ -45,20 +46,34 @@ class Forecaster:
         self._output_shape = self._datasets['train'].output_shape()
 
 
-    def __dense_layer(self, units):
-        return Dense(units)
+    def __dense_layer(self, units, x):
+        return Dense(units, kernel_regularizer=L2(1), kernel_initializer="he_uniform")(x)
 
 
-    def __relu(self):
-        return LeakyReLU(self._params['alpha'])
+    def __relu(self, x):
+        return LeakyReLU(self._params['alpha'])(x)
     
+    
+    def __batch_norm(self, x):
+        return BatchNormalization()(x)
+    
+    
+    def __residual_layer(self, units, x):
+        x_skp = self.__dense_layer(units, x)
+        # x_skp = self.__batch_norm(x_skp)
+        x_skp = self.__relu(x_skp)
+        return Concatenate()([x, x_skp])
+        
 
     def __create_model(self):
         inpt = Input(shape=self._inpt_shape)
-        x = self.__dense_layer(256)(inpt)
-        x = self.__relu()(x)
+        x = inpt
+
+        for dim in self._params['model_dim']:
+            x = self.__residual_layer(dim, x)
+        
         assert len(self._output_shape) == 1
-        x = self.__dense_layer(self._output_shape[0])(inpt)
+        x = self.__dense_layer(self._output_shape[0], x)
         self._model = Model(inputs=inpt, outputs=x)
 
 
@@ -120,8 +135,11 @@ class Forecaster:
 
 
     def print_params(self):
-        print("model params:")
+        print('model params:')
         pprint.pprint(self._params)
+        print('model summary:')
+        self.keras_model.summary()
+        print(end='', flush=True)
         
 
     def train(self):

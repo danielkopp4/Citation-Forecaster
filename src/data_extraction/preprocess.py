@@ -17,7 +17,7 @@ target_type = np.float32
 # title -> sbert
 # abstract -> sbert
 # journal -> one_hot (no longer in use -> too many journal names)
-# date string -> decode to epoch time
+# date (string) -> epoch time (int)
 # citation -> identity
 
 def load_paper_data(params: dict) -> pd.DataFrame:
@@ -34,7 +34,7 @@ def load_paper_data(params: dict) -> pd.DataFrame:
     n_points = 0
     filename = os.path.join(os.path.join(params['data_folder'], params['dataset_folder']), params['target_name'])
 
-    with open(filename, "r") as file:
+    with open(filename, 'r') as file:
         line = file.readline()
         while line and n_points < max_cutoff:
             json_data = json.loads(line)
@@ -47,7 +47,7 @@ def load_paper_data(params: dict) -> pd.DataFrame:
                 if keys[key] not in json_data:
                     data[key].append(None)
                 else:
-                    if key == "date":
+                    if key == 'date':
                         data[key].append(json_data[keys[key]][-1]['created'])
                     else:
                         data[key].append(json_data[keys[key]])
@@ -59,7 +59,7 @@ def load_paper_data(params: dict) -> pd.DataFrame:
 
 def load_citations(params: dict) -> np.ndarray:
     filename = os.path.join(os.path.join(params['data_folder'], params['dataset_folder']), params['doi_tempfile'])
-    return [int(x) if x > 0 else None for x in np.loadtxt(filename)]
+    return [int(x-1) if x > 1 else None for x in np.loadtxt(filename)]
 
 
 def save_data(location: str, data: np.ndarray):
@@ -76,10 +76,10 @@ def format_date(date: str) -> str:
     if date == None:
         return None
     
-    new_date = date[date.find(",")+1:date.rfind(" ")].strip()
-    add_zero = "0" if new_date.find(" ") == 1 else ""
-    new_date = f"{add_zero}{new_date}"
-    return int(arrow.get(new_date, "DD MMM YYYY HH:mm:ss").timestamp())
+    new_date = date[date.find(',')+1:date.rfind(' ')].strip()
+    add_zero = '0' if new_date.find(' ') == 1 else ''
+    new_date = f'{add_zero}{new_date}'
+    return int(arrow.get(new_date, 'DD MMM YYYY HH:mm:ss').timestamp())
 
 # when called preprocess the dataset
 def preprocess_data(params: dict):
@@ -104,9 +104,6 @@ def preprocess_data(params: dict):
 
     print('transform date')
     dates = paper_df['date'].transform(format_date)
-    # dates -= min(dates)
-    # dates /= max(dates)
-    # print(dates.head())
 
     print('transform titles')
     titles = model.encode(paper_df['title'].tolist())
