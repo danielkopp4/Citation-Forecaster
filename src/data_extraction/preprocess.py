@@ -98,6 +98,8 @@ def preprocess_data(params: dict):
     print('get SBERT model')
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
+    # include for journal preprocessing
+    # currently journals with 
     # print('transform journal')
     # journals = paper_df['journal'].transform(journal_pre_transform)
     # journals = OneHotEncoder(sparse=False).fit_transform(journals.values.reshape(-1, 1))
