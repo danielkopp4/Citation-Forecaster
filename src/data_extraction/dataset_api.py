@@ -2,6 +2,13 @@ from tensorflow.keras.utils import Sequence
 from typing import Tuple
 import numpy as np
 
+
+'''
+The dataset that contins the specfic shape and 
+properties dataset should be able to perform
+
+used by the downloader to the be able to keep the aspects of the dataset in one place
+'''
 class Dataset(Sequence):
     def __init__(self, file_path: str, batch_size: int = 64):
         self._batch_size = batch_size

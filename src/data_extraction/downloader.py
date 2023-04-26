@@ -20,7 +20,10 @@ max_cutoff = np.inf
 batch = 100
 interval = 2
 
-
+'''
+gets the dois of the papers which will then be used as a unique identifier
+to then be able to get a current citation from Open Citations
+'''
 def get_dois(file_name: str) -> List[str]:
     dois = []
     n_points = 0
@@ -37,13 +40,17 @@ def get_dois(file_name: str) -> List[str]:
             line = json_file.readline() 
 
     return dois
-
+'''
+where the data will be stored
+'''
 def complete_filename(params: dict) -> str:
     return os.path.join(os.path.join(params['data_folder'], params['dataset_folder']), params['doi_tempfile'])
 
+'''
+loads the data to then bne able to get modified
+'''
 def load_complete(params: dict, default_len: int) -> np.ndarray:
     # if not found return empty nd_arr
-
     filename = complete_filename(params)
     if os.path.exists(filename):
         with open('lines.txt', 'r') as file:
@@ -56,6 +63,9 @@ def load_complete(params: dict, default_len: int) -> np.ndarray:
 
     return np.zeros((default_len,)).astype(int)
 
+'''
+checks to see if saving is possible then saves to the file
+'''
 def save_complete(params: dict, complete: np.ndarray, length: int):
     if len(complete) != length:
         print('ERR ON SAVE: len(complete) != length')
@@ -71,9 +81,13 @@ def iterate_exp_average(current_val: float, moving_average: float, beta_1: float
     adj_beta = -np.power(beta_2, iters + movement) + beta_1
     return adj_beta * moving_average + (1 - adj_beta) * current_val
 
-# when called downloads and parses the dataset
-# for future use in the dataset_api
+'''
+downloads and parses the dataset from arXiv and uses multithreading / proxies to get the citations
+'''
 def download_data(params: dict):
+    '''
+    arxiv download part
+    '''
     loc = os.path.join(params['data_folder'], params['dataset_folder'])
     files = [x for x in os.listdir(loc) if '.json' in x]
 
@@ -110,7 +124,9 @@ def download_data(params: dict):
     signal.signal(signal.SIGTERM, sigterm_handler)
     signal.signal(signal.SIGINT, sigterm_handler)
 
-
+    '''
+    starts the multithreading process to then be able to get the citations in a parallel methedology
+    '''
     while np.any(complete == False):
         if id < len(dois):
             start_thread(incomplete[id:id+batch], dois, complete)
@@ -139,7 +155,9 @@ def download_data(params: dict):
 
 
 
-
+'''
+gets the citations by sneding a reques to the OpenCitations url using a list of dois
+'''
 def get_citation(ids: List[int], dois: List[str], complete: np.ndarray) -> None:
     proxy = FreeProxy().get()
     proxies = {
@@ -158,7 +176,9 @@ def get_citation(ids: List[int], dois: List[str], complete: np.ndarray) -> None:
         url = f'http://api.crossref.org/works/{curDoi}'
 
         success = False
-        
+        '''
+        if not sucessfull then need to change the proxy to then be able to get aroudn the rate limiting
+        '''
         while not success:
             # rand_ip = socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff)))
             rand_ip = '127.0.0.1'
@@ -201,7 +221,9 @@ def get_citation(ids: List[int], dois: List[str], complete: np.ndarray) -> None:
             print(url)
             traceback.print_exc(file=sys.stdout)
         
-
+'''
+multithreading base logic
+'''
 def start_thread(ids, dois, complete):
     return Thread(target=get_citation, args=(ids, dois, complete), daemon=True).start()
 
