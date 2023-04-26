@@ -20,6 +20,10 @@ target_type = np.float32
 # date (string) -> epoch time (int)
 # citation -> identity
 
+'''
+creates a dataframe with all the data extracted from the .json file
+sets date to null if not found
+'''
 def load_paper_data(params: dict) -> pd.DataFrame:
     keys = {
         'title': 'title', 
@@ -72,6 +76,9 @@ def journal_pre_transform(journal: str) -> str:
 
     return journal.lower()
 
+'''
+formats date into proper format
+'''
 def format_date(date: str) -> str:
     if date == None:
         return None
@@ -82,6 +89,10 @@ def format_date(date: str) -> str:
     return int(arrow.get(new_date, 'DD MMM YYYY HH:mm:ss').timestamp())
 
 # when called preprocess the dataset
+'''
+uses sbert to then be able to quantify the words and then assign a score on the abstract as a whole
+the print statenents offer a good description of what is going on
+'''
 def preprocess_data(params: dict):
     print('load papers and citations')
     paper_df = load_paper_data(params)
