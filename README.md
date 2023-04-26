@@ -7,6 +7,6 @@
 
 ## Some Useful Features
 - [ ] Create option to save previous revision histories
-      - [ ] Set up database(MongoDB)
+ - [ ] Set up database(MongoDB)
 - [ ] Create actively updating UI based on specific new inputs from user
-      - [ ] Optimization from model necessary
+ - [ ] Optimization from model necessary
