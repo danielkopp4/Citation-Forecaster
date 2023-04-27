@@ -9,6 +9,41 @@ const button = [
   }
 ];
 
+/*
+future code to then show number of submissions used and also andles reset and deletion of submissions
+*/
+handleIncrement = (counter) => {
+  const counters = [...this.state.counters];
+  const index = counters.indexOf(counter);
+  counters[index] = { ...counters[index] };
+  counters[index].value++;
+  this.setState({ counters });
+};
+
+handleDecrement = (counter) => {
+  const counters = [...this.state.counters];
+  const index = counters.indexOf(counter);
+  counters[index] = { ...counters[index] };
+  counters[index].value--;
+  this.setState({ counters });
+};
+
+handleReset = () => {
+  const counters = this.state.counters.map((c) => {
+    c.value = 0;
+    return c;
+  });
+  this.setState({ counters });
+};
+
+handleDelete = (counterId) => {
+  const counters = this.state.counters.filter((c) => c.id !== counterId);
+  this.setState({ counters });
+};
+
+handleRestart = () => {
+  window.location.reload();
+};
 function App() {
   const greeting = "greeting";
   const displayAction = false;
