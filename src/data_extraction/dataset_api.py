@@ -1,59 +1,47 @@
-from tensorflow.keras.utils import Sequence
-from typing import Tuple
+from abc import ABC, abstractmethod, abstractproperty
+from typing import Set, Tuple
+from src.betting_env.odds import Odds
 import numpy as np
+from copy import deepcopy
+
+class DataAPI(ABC):
+    def get_data_generator():
+        pass
+
+    @abstractproperty
+    def observation_space(self):
+        pass
 
 
-'''
-The dataset that contins the specfic shape and 
-properties dataset should be able to perform
+class HistoricalBettingDataAPI(ABC):
+    def __init__(self):
+        self._order = np.arange(self._length_raw)
 
-used by the downloader to the be able to keep the aspects of the dataset in one place
-'''
-class Dataset(Sequence):
-    def __init__(self, file_path: str, batch_size: int = 64):
-        self._batch_size = batch_size
-        self._file_path = file_path
-        self.__load_data()
-        self.shuffle_data()
+    def shuffle(self):
+        np.random.shuffle(self._order)
 
+    @abstractmethod
+    def _get_item_raw(self, index) -> Tuple[Odds, Odds, str, str, int, int]:
+        pass
 
-    @property
-    def n_observations(self) -> int:
-        return self._n_observations
+    @abstractproperty
+    def _length_raw(self) -> int:
+        pass
 
-
-    def shape(self, include_batch=False) -> np.shape:
-        shape = [self._n_features]
-        if include_batch:
-            shape = [self._batch_size] + shape
-        return tuple(shape)
-
-
-    def output_shape(self) -> np.shape:
-        return (1,)
-        
-
-    def __load_data(self):
-        raw_data = np.load(self._file_path)
-        self._n_observations = len(raw_data)
-        self._data = raw_data
-        self._indices = np.arange(self._n_observations)
-        self._n_features = self._data.shape[1] - 1 # last col is y var
-
-
-    def __len__(self) -> int:
-        return self.n_observations // self._batch_size
+    def copy(self) -> 'HistoricalBettingDataAPI':
+        return deepcopy(self) 
     
+    def __len__(self):
+        return len(self._order)
 
-    def __getitem__(self, index: int) -> Tuple[np.ndarray, np.ndarray]:
-        index_batch = self._indices[index * self._batch_size: (index + 1) * self._batch_size]
-        batch = self._data[index_batch]
-        return batch[:,:-1], np.reshape(batch[:,-1], (self._batch_size, self.output_shape()[0]))
-    
+    def __getitem__(self, index) -> Tuple[Odds, Odds, str, str, int, int]:
+        if isinstance(index, slice):
+            cpy = self.copy()
+            cpy._order = self._order[index]
+            return cpy
 
-    def shuffle_data(self):
-        np.random.shuffle(self._indices)
+        return self._get_item_raw(self._order[index])  
 
-
-    def on_epoch_end(self):
-        return self.shuffle_data()
+    @abstractmethod
+    def get_unique_teams(self) -> Set[str]:
+        pass
