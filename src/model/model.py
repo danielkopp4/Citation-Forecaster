@@ -9,41 +9,40 @@ from src.model.callback import TrainingCallback
 import os
 import json
 import pprint
+import tensorflow as tf
 
 class Forecaster:
     def __init__(self, params: dict):
         self._params = params
-        self.__load_dataset()
-        self.__create_model()
+        self._datasets = self._load_datasets()
+        self._model = self._create_model()
 
-        if self._params['load_prev']:
-            self.__load_model()
+        if self._params.get('load_prev', False):
+            self._load_model()
 
-        self.__compile_model()
-
+        self._compile_model()
 
     @property
     def batch_size(self) -> int:
-        return self._params['batch_size']
-    
+        return self._params.get('batch_size', 32)
 
     @property
     def data_path(self) -> str:
-        return self._params['data_path']
-    
+        return self._params.get('data_path', '')
 
     @property
-    def keras_model(self) -> Model:
+    def keras_model(self) -> tf.keras.Model:
         return self._model
 
-
-    def __load_dataset(self):
-        self._datasets = {
-            name: Dataset(os.path.join(self.data_path, name) + '.' + self._params['ds_format'], self.batch_size) 
-            for name in ['train', 'val', 'test']
-        }
-        self._inpt_shape = self._datasets['train'].shape()
-        self._output_shape = self._datasets['train'].output_shape()
+    def _load_datasets(self):
+        datasets = {}
+        formats = self._params.get('ds_format', 'train,val,test').split(',')
+        for name in formats:
+            dataset = Dataset(os.path.join(self.data_path, f"{name}.{self._params.get('ds_format', 'csv')}"), self.batch_size)
+            datasets[name] = dataset
+        self._inpt_shape = datasets['train'].shape()
+        self._output_shape = datasets['train'].output_shape()
+        return datasets
 
 
     def __dense_layer(self, units, x):
