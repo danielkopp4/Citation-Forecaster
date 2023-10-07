@@ -8,5 +8,8 @@
     "output_file": "arxiv/arxiv-metadata-oai-snapshot.json",
     "target_name": "data.json",
     "doi_tempfile": "complete.data",
-    "data_link": "https://www.kaggle.com/datasets/Cornell-University/arxiv"
+    "data_link": "https://www.kaggle.com/datasets/Cornell-University/arxiv",
+    "database_url": "postgresql://localhost/citation_forecaster",
+    "paper_metadata_table": "arxivdata",
+    "citation_count_table": "citationcount"
 }

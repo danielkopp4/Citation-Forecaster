@@ -9,4 +9,4 @@
 
 # echo "-- finished --"
 
-python3 -m src.data_extraction.downloader download_config.json
+python -m src.data_extraction.downloader download_config.json
