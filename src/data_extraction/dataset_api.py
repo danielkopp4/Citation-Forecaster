@@ -45,3 +45,12 @@ class HistoricalBettingDataAPI(ABC):
     @abstractmethod
     def get_unique_teams(self) -> Set[str]:
         pass
+
+games_file = "nba_games_all.csv"
+
+
+def download_data():
+    if not os.path.exists(folder_name):
+        import opendatasets as od
+        dataset_link = "https://www.kaggle.com/datasets/ehallmar/nba-historical-stats-and-betting-data"
+        od.download(dataset_link)
