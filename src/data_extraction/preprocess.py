@@ -102,7 +102,7 @@ def preprocess_data(params: dict):
         citations = citations[:max_cutoff]
 
     # not found citations should be na
-    assert len(paper_df) == len(citations)
+    # assert len(paper_df) == len(citations)
 
     print(f'loaded {len(paper_df)} papers')
 

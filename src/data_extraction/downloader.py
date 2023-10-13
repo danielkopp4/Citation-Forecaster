@@ -91,7 +91,7 @@ def download_data(params: dict):
     loc = os.path.join(params['data_folder'], params['dataset_folder'])
     files = [x for x in os.listdir(loc) if '.json' in x]
 
-    if len(files) == 0:
+    if len(files) == 0 or True:
         dataset_link = params['data_link']
         od.download(dataset_link, data_dir=loc)
 
