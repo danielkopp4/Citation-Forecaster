@@ -1,10 +1,10 @@
-from requests import get
+# from requests import get
 from threading import Thread
 import numpy as np
 from fp.fp import FreeProxy
 import time
 from typing import List
-from requests.exceptions import ConnectionError
+# from requests.exceptions import ConnectionError
 import traceback
 from src.shared.utils import load_params
 import opendatasets as od
@@ -13,16 +13,17 @@ import sys
 import shutil
 from typing import List
 import json
-from datetime import timedelta
-from sqlalchemy import create_engine, Column, Integer, String, Sequence, Engine, text, inspect
+from sqlalchemy import create_engine, Column, Integer, String, Engine, text, inspect
 from sqlalchemy.orm import declarative_base, sessionmaker, scoped_session
 import pandas as pd
 import asyncio
+import anyio
+import httpx
 
 max_cutoff = np.inf
-max_threads = 500
-batch_per_thread = 100
-interval = 2
+max_threads = 1000
+batch_per_thread = 1
+retry_max = 2
 
 
 """
@@ -35,7 +36,17 @@ INSTEAD OF PER DOI
 WE ALSO HAVE TO REMOVE DUPLICATES BC FOR SOME REASON 
 THERE ARE A FEW (2000) PUBLICATIONS WITH OVERLAPPING DOIS
 WHICH CROSSREF WILL NOT INTERPRET CORRECTLY
+
+FIND A WAY TO MARK SKIPPED DOIS -> Create a column in counts 
+that notes the number of tries, sort it by the number of tries
+ascending
 """
+
+
+async def fetch_url(url):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        return response.text
 
 def get_dois(params: dict, engine: Engine, limit=None) -> List[str]:
     limit_text = f"LIMIT {limit}" if limit else ""
@@ -49,6 +60,7 @@ def get_dois(params: dict, engine: Engine, limit=None) -> List[str]:
 def get_remaining_dois(params: dict, engine: Engine, limit=None) -> List[str]:
     limit_text = f"LIMIT {limit}" if limit else ""
     command = text(f"SELECT doi from {params['paper_metadata_table']} WHERE doi is not NULL EXCEPT SELECT doi FROM {params['citation_count_table']} {limit_text};")
+    print("executing:", command)
     with engine.connect() as conn:
         r = conn.execute(command)
         dois = np.array([line.doi for line in r])
@@ -56,18 +68,28 @@ def get_remaining_dois(params: dict, engine: Engine, limit=None) -> List[str]:
     return dois
 
 def n_remaining_dois(params: dict, engine: Engine) -> int:
-    command = text(f"SELECT count(*) from {params['paper_metadata_table']} WHERE doi is not NULL EXCEPT SELECT doi FROM {params['citation_count_table']};")
+    command = text(f"SELECT count(*) FROM ( SELECT doi FROM {params['paper_metadata_table']} WHERE doi is not NULL EXCEPT SELECT doi FROM {params['citation_count_table']} ) AS subquery;")
+    print("executing:", command)
     with engine.connect() as conn:
         r = conn.execute(command)
     
-    return r[0].count
+    return [x for x in r][0].count
 
 def doi_length(params: dict, engine: Engine) -> int:
-    command = text(f"SELECT count(*) from {params['paper_metadata_table']} WHERE doi is not NULL;")
+    command = text(f"SELECT count(*) FROM {params['paper_metadata_table']} WHERE doi is not NULL;")
+    print("executing:", command)
     with engine.connect() as conn:
         r = conn.execute(command)
 
-    return r[0].count
+    return [x for x in r][0].count
+
+def percent_complete(params: dict, engine: Engine) -> float:
+    command = f"SELECT s.count::float / s1.count::float FROM (SELECT count(*) from {params['citation_count_table']}) as s, (SELECT count(*) from (SELECT doi FROM {params['paper_metadata_table']} where doi is not null GROUP BY doi HAVING count(*) = 1) as s) as s1;"
+    print("executing:", command)
+    with engine.connect() as conn:
+        r = conn.execute(command)
+
+    return [x for x in r][0].percent
 
 Base = declarative_base()
 
@@ -87,6 +109,10 @@ def insert_data(session, row_object, doi, count):
     new_count = row_object(doi=doi, citationcount=count)
     session.add(new_count)
     session.commit()
+    
+async def insert_data_async(session, row_object, doi, count):
+    loop = asyncio.get_event_loop()
+    await loop.run_in_executor(None, insert_data, session, row_object, doi, count) 
 
 def load_paper_data(filename: str) -> pd.DataFrame:
     keys = {
@@ -210,7 +236,7 @@ def create_tables(engine):
 '''
 downloads and parses the dataset from arXiv and uses multithreading / proxies to get the citations
 '''
-def download_data(params: dict):
+async def download_data(params: dict):
     '''
     arxiv download part
     '''
@@ -234,12 +260,12 @@ def download_data(params: dict):
     print("PostgreSQL engine loaded")
     
     # convert 
-    if not inspect(engine).has_table(params['citation_count_table']):
+    if not inspect(engine).has_table(params['paper_metadata_table']):
         print("arxivdata table does not exist, creating...")
         load_paper_data(os.path.join(loc, file_name)).to_sql(params['paper_metadata_table'], engine, if_exists='replace', index=False)
         
     session_factory = sessionmaker(bind=engine)
-    create_row_object(params)
+    row_object = create_row_object(params)
     
     # ensure table exists
     if not inspect(engine).has_table(params['citation_count_table']):
@@ -248,10 +274,12 @@ def download_data(params: dict):
         
 
     n_remaining = n_remaining_dois(params, engine)
-    dois_remaining = dois_remaining(params, engine, 2 * batch_per_thread * max_threads)
+    dois_remaining = get_remaining_dois(params, engine)
+    prev_n_remaining = n_remaining
     rate = 0
     prev_time = time.time()
     iters = 0
+    start = 0
 
     # def sigterm_handler(signal, frame):
     #     save_complete(params, complete, length)
@@ -266,51 +294,61 @@ def download_data(params: dict):
     '''
     starts the multithreading process to then be able to get the citations in parallel 
     '''
-    while n_remaining: # replace with a sql get
-        threads = []
-        for start in range(0, min(max_threads, n_remaining), batch_per_thread):
-            threads.append(start_thread(dois_remaining[start:start+batch_per_thread], session_factory))
-            
-        
+    while n_remaining > start: # replace with a sql get
+        # threads = []
+        async with anyio.create_task_group() as tg:
+            for index in range(start, min(max_threads+start, n_remaining), batch_per_thread):
+                tg.start_soon(get_citation, dois_remaining[index:index+batch_per_thread], row_object, session_factory)
+       
+        start += max_threads * batch_per_thread
 
-        delta = time.time() - prev_time
-        prev_time = time.time()
-        n_remaining = np.sum([1 if x == 0 else 0 for x in complete])
-        delta_n = prev_n_remaining - n_remaining
-        prev_n_remaining = n_remaining
-        current_rate = delta_n / delta
+        # delta = time.time() - prev_time
+        # prev_time = time.time()
+        # n_remaining = n_remaining_dois(params, engine)
+        # delta_n = prev_n_remaining - n_remaining
+        # prev_n_remaining = n_remaining
+        # current_rate = delta_n / delta
 
-        rate = iterate_exp_average(current_rate, rate, 0.97, 0.5, iters)
-        iters += 1
-        time_remaining = n_remaining / rate if rate > 1E-5 else np.inf
-        time_remaining = timedelta(seconds=int(time_remaining)) if not np.isinf(time_remaining) else 'inf'
+        # rate = iterate_exp_average(current_rate, rate, 0.97, 0.5, iters)
+        # iters += 1
+        # time_remaining = n_remaining / rate if rate > 1E-5 else np.inf
+        # time_remaining = timedelta(seconds=int(time_remaining)) if not np.isinf(time_remaining) else 'inf'
 
-        print('\033[Kn remaining: {} | {:0.03f} req/s | {} seconds'.format(n_remaining, rate, time_remaining), end='\r')
+        # print('\033[Kn remaining: {} | {:0.03f} req/s | {} seconds'.format(n_remaining, rate, time_remaining))
         # save_complete(params, complete, length)
 
     # save_complete(params, complete, length)
     # print('req per second',  len(dois) / (time.time() - prev_time))
-    with open('status.txt', 'w') as file:
-        file.write('DONE')
+    final_count = n_remaining_dois(params, engine)
+    if final_count == 0:
+        with open('status.txt', 'w') as file:
+            file.write('DONE')
+            
+    with open('intermediate.txt', 'w') as file:
+        file.write(f"remaining: {final_count}\n")
 
+def gen_proxy_sync():
+    return FreeProxy().get()
 
+async def gen_proxy():
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, gen_proxy_sync)
 
 '''
 gets the citations by sending a request to the Crossref url using a list of dois
 '''
-def get_citation(dois: List[str], row_object, session_factory) -> None:
-    proxy = FreeProxy().get()
+async def get_citation(dois: List[str], row_object, session_factory) -> None:
+    proxy = await gen_proxy()
     proxies = {
-        'http': proxy
+        'http://': proxy
     }
     
     Session = scoped_session(session_factory)
     with Session() as session:
 
-    
-    # for id in ids:
-        # curDoi = dois[id]
         for curDoi in dois:
+            retries = 0
+            
             url = f'http://api.crossref.org/works/{curDoi}'
 
             success = False
@@ -318,47 +356,59 @@ def get_citation(dois: List[str], row_object, session_factory) -> None:
             if not sucessfull then need to change the proxy to then be able to get aroudn the rate limiting
             '''
             while not success:
-                # rand_ip = socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff)))
-                rand_ip = '127.0.0.1'
-                headers = [[y.strip() for y in x.strip().split(':')] for x in f'''
-                X-Originating-IP: {rand_ip}
-                X-Forwarded-For: {rand_ip}
-                X-Remote-IP: {rand_ip}
-                X-Remote-Addr: {rand_ip}
-                X-Client-IP: {rand_ip}
-                X-Host: {rand_ip}
-                X-Forwared-Host: {rand_ip}
-                '''.strip().split('\n')]
-                headers = {x: y for x,y in headers}
+                async with httpx.AsyncClient(proxies=proxies) as client: 
+                    # rand_ip = socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff)))
+                    rand_ip = '127.0.0.1'
+                    headers = [[y.strip() for y in x.strip().split(':')] for x in f'''
+                    X-Originating-IP: {rand_ip}
+                    X-Forwarded-For: {rand_ip}
+                    X-Remote-IP: {rand_ip}
+                    X-Remote-Addr: {rand_ip}
+                    X-Client-IP: {rand_ip}
+                    X-Host: {rand_ip}
+                    X-Forwared-Host: {rand_ip}
+                    '''.strip().split('\n')]
+                    headers = {x: y for x,y in headers}
 
-                try:
-                    citationNumber = get(url, headers=headers, proxies=proxies, timeout=100)
+                    try:
+                        # citationNumber = get(url, headers=headers, proxies=proxies, timeout=100)
+                        citationNumber = await client.get(url, headers=headers, timeout=100)
 
-                    if citationNumber.status_code == 200:
-                        success = True
-                except ConnectionError:
-                    pass
-                except Exception:
-                    print('received unhandled error')
-                    print(url)
-                    traceback.print_exc(file=sys.stdout)
-                    sys.exit()
+                        if citationNumber.status_code == 200:
+                            success = True
+                        else:
+                            retries += 1
+                            
+                            if retries >= retry_max:
+                                break
+                    except httpx.RequestError:
+                        pass
+                    except Exception:
+                        print('received unhandled error')
+                        print(url)
+                        traceback.print_exc(file=sys.stdout)
+                        # sys.exit()
+                        # skip the url
+                        break
 
-                if not success:
-                    proxy = FreeProxy().get()
-                    proxies = {
-                        'http': proxy
-                    }
+                    if not success:
+                        proxy = await gen_proxy()
+                        proxies = {
+                            'http://': proxy
+                        }
+
+            if not success:
+                print("skipping", url)
+                continue
 
             try:
                 count = int(citationNumber.json()['message']['is-referenced-by-count'])
-                # complete[id] = count 
-                insert_data(session, row_object, curDoi, count)
+                await insert_data_async(session, row_object, curDoi, count)
             except Exception:
                 print('received unhandled error')
-                print(citationNumber.text)
                 print(url)
                 traceback.print_exc(file=sys.stdout)
+                print("skipping", url)
             
     Session.remove()
         
@@ -374,6 +424,14 @@ def start_thread(ids, dois, complete):
 prev_time = time.time()
 
 if __name__ == '__main__':
-    file_name = sys.argv[1]
-    params = load_params(file_name)
-    download_data(params)
+    async def main():
+        file_name = sys.argv[1]
+        params = load_params(file_name)
+        await download_data(params)
+        
+    
+    try:
+        anyio.run(main)
+    except KeyboardInterrupt:
+        print('exiting...')
+        
