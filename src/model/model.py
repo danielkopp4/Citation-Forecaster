@@ -12,8 +12,13 @@ import logging
 
 class Forecaster:
     def __init__(self, config_file):
-        with open(config_file, 'r') as file:
-            self._params = json.load(file)
+        self._logger = self._setup_logger()
+        try:
+            with open(config_file, 'r') as file:
+                self._params = json.load(file)
+        except Exception as e:
+            self._logger.error(f"Error loading config file: {e}")
+            raise
 
         self._datasets = self._load_datasets()
         self._model = self._create_model()
@@ -22,7 +27,7 @@ class Forecaster:
             self._load_model()
 
         self._compile_model()
-        self._logger = self._setup_logger()
+        self.validate_config()
 
     @property
     def batch_size(self) -> int:
@@ -34,11 +39,12 @@ class Forecaster:
 
     @property
     def keras_model(self) -> Model:
-        return self._model    
+        return self._model
 
     def _setup_logger(self):
         logger = logging.getLogger(__name__)
-        logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+        log_level = self._params.get('log_level', 'INFO')
+        logging.basicConfig(level=logging.getLevelName(log_level), format="%(asctime)s [%(levelname)s] %(message)s")
         return logger
 
     def _load_datasets(self):
@@ -47,12 +53,12 @@ class Forecaster:
         for name in formats:
             dataset = Dataset(os.path.join(self.data_path, f"{name}.{self._params.get('ds_format', 'csv')}"), self.batch_size)
             datasets[name] = dataset
-        self._inpt_shape = datasets['train'].shape()
-        self._output_shape = datasets['train'].output_shape()
+        self._inpt_shape = datasets['train'].shape
+        self._output_shape = datasets['train'].output_shape
         return datasets
 
     def _create_model(self):
-        inpt = Input(shape=self._inpt_shape)
+        inpt = Input(shape=(self._inpt_shape,))
         x = inpt
 
         for dim in self._params.get('model_dim', []):
@@ -75,6 +81,13 @@ class Forecaster:
 
         self._model = load_model(model_loc, compile=False)
 
+    def validate_config(self):
+        required_params = ['data_path', 'batch_size', 'model_dim', 'output_shape', 'learning_rate', 'log_level']
+        missing_params = [param for param in required_params if param not in self._params]
+        if missing_params:
+            self._logger.error(f"Missing required parameters in config: {missing_params}")
+            raise ValueError(f"Missing required parameters in config: {missing_params}")
+
     def _save_model(self, epoch=None):
         model_dir = os.path.join(self._params.get('models_dir', ''), self._params.get('model_name', ''))
         model_dir = os.path.join(model_dir, 'final' if epoch is None else 'checkpoint')
@@ -83,9 +96,9 @@ class Forecaster:
             os.makedirs(model_dir)
 
         params_loc = os.path.join(model_dir, 'params.json')
-        model_loc = os.path.join(model_dir, f'trained_model')
+        model_loc = os.path.join(model_dir, 'trained_model.h5')
         if epoch is not None:
-            model_loc += f'_{epoch}'
+            model_loc = os.path.join(model_dir, f'trained_model_{epoch}.h5')
 
         with open(params_loc, 'w') as file:
             json.dump(self._params, file)
@@ -118,19 +131,28 @@ class Forecaster:
         tensorboard = TensorBoard(log_dir=self._params.get('log_dir', ''))
 
         history = self.keras_model.fit(
-            self._datasets['train'],
+            self._datasets['train'].data,
             batch_size=self.batch_size,
             epochs=self._params.get('epochs', 10),
-            validation_data=self._datasets['val'],
+            validation_data=self._datasets['val'].data,
             verbose=0,
             callbacks=[early_stopping, checkpoint, tensorboard]
         )
 
+        # Log training metrics
+        self._logger.info('Training metrics:')
+        self._logger.info(history.history)
+
         self._save_model()
         self._logger.info('Finished Training')
 
+        # Perform model evaluation and log additional metrics
+        test_metrics = self.keras_model.evaluate(self._datasets['test'].data, verbose=0)
+        self._logger.info('Test metrics:')
+        self._logger.info(test_metrics)
+
         self.keras_model.evaluate(
-            self._datasets['test'],
+            self._datasets['test'].data,
             verbose=0,
             callbacks=[TrainingCallback(
                 self._params.get('log_dir', ''),
