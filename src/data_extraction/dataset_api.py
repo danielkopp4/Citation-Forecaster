@@ -1,6 +1,8 @@
 from tensorflow.keras.utils import Sequence
 from typing import Tuple
 import numpy as np
+import sqlalchemy as sa
+from sqlalchemy.orm import sessionmaker
 
 
 '''
@@ -10,12 +12,22 @@ properties dataset should be able to perform
 used by the downloader to the be able to keep the aspects of the dataset in one place
 '''
 class Dataset(Sequence):
-    def __init__(self, file_path: str, batch_size: int = 64):
+    def __init__(self, engine_url: str, batch_size: int = 64):
         self._batch_size = batch_size
-        self._file_path = file_path
+        self._engine = sa.create_engine(engine_url)
         self.__load_data()
         self.shuffle_data()
 
+    def __load_data(self):
+        Session = sessionmaker(bind=self._engine)
+        session = Session()
+        query = session.query().all()  # Replace YourTableModel with your SQLAlchemy model
+        raw_data = np.array([x.to_tuple() for x in query])  # Assume each row object has a to_tuple method
+        session.close()
+        self._n_observations = len(raw_data)
+        self._data = raw_data
+        self._indices = np.arange(self._n_observations)
+        self._n_features = self._data.shape[1] - 1
 
     @property
     def n_observations(self) -> int:
@@ -31,14 +43,6 @@ class Dataset(Sequence):
 
     def output_shape(self) -> np.shape:
         return (1,)
-        
-
-    def __load_data(self):
-        raw_data = np.load(self._file_path)
-        self._n_observations = len(raw_data)
-        self._data = raw_data
-        self._indices = np.arange(self._n_observations)
-        self._n_features = self._data.shape[1] - 1 # last col is y var
 
 
     def __len__(self) -> int:
