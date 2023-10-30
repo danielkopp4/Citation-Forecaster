@@ -3,6 +3,12 @@ from gym import spaces
 import numpy as np
 from odds import Odds
 
+"""
+Action Space: Invest in A, Invest in B, the null amount is determined by g - (A + B)
+Observation Space: g, O_a, O_b, eps?, P[W_t = A]?
+
+"""
+
 def clamp(low, high, value):
     if value < low:
         return low
@@ -15,7 +21,9 @@ def clamp(low, high, value):
 WIN_STD = 0.1
 
 EPS_MU = 0.00
+# EPS_MU = 0.01
 EPS_STD = 0.00
+# EPS_STD = 0.01
 
 LAMBDA_GAINS = 1
 LAMBDA_LOSSES = -1
@@ -31,7 +39,12 @@ class BettingEnvironment(gym.Env):
 
     def __init__(self, bias_factor, g_0, episode_length): # takes some variable that biases the betting odds o_a, o_b
         super(BettingEnvironment, self).__init__()
+        # Define action and observation space
+        # They must be gym.spaces objects
+        # Example when using discrete actions:
+        # self.action_space = spaces.Discrete(N_DISCRETE_ACTIONS)
         self.action_space = spaces.Box(low=np.array([-1,-1,-1]), high=np.array([1,1,1]), shape=(3,), dtype=np.float32)
+        # Example for using image as input:
         self.observation_space = spaces.Box(low=np.array([0, 1, 1, 0, 0]), high=np.array([np.inf, np.inf, np.inf, 1, 1]),
                                         shape=(5,), dtype=np.float32)
 
@@ -95,6 +108,6 @@ class BettingEnvironment(gym.Env):
         pass
 
 if __name__ == "__main__":
+    # check to ensure env is properly setup
     from stable_baselines3.common.env_checker import check_env
-    env = BettingEnvironment(1, 1, 100)
     check_env(env)
