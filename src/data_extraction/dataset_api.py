@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 '''
-The dataset that contins the specfic shape and 
+The dataset that contains the specific shape and 
 properties dataset should be able to perform
 
 used by the downloader to the be able to keep the aspects of the dataset in one place
