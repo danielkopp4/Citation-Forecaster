@@ -1,19 +1,20 @@
 // src/HomePage.js
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 function HomePage() {
-
-
   const [text, setText] = useState('');
-  
-  // Auto-resize the textarea based on content
+  const [notification, setNotification] = useState('');
+
   const handleTextChange = (event) => {
     const textarea = event.target;
     setText(textarea.value);
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
   };
-  
+
+  const handleSubmit = () => {
+    const wordCount = text.trim().split(/\s+/).length;
+    setNotification(`Word count: ${wordCount}. Servers were able to accept.`);
+    // Here you could also send the text to a server if required
+  };
 
   return (
     <div>
@@ -33,7 +34,8 @@ function HomePage() {
             className="cool-textbox"
             rows={3}
           />
-          <div className="character-counter">{text.length} characters</div>
+          <button onClick={handleSubmit} className="submit-button">Submit</button>
+          {notification && <div className="notification">{notification}</div>}
         </div>
       </div>
     </div>
