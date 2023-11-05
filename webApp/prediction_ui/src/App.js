@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import HomePage from './HomePage';
+import HomePage from './componenets/HomePage';
+import textBox from './componenets/textBox'
 
 function App() {
   return (
@@ -19,7 +20,11 @@ function App() {
         >
           Learn React
         </a>
-      </header> */}
+      </header> */
+      }
+      <textBox />{
+        
+      }
     </div>
   );
 }
