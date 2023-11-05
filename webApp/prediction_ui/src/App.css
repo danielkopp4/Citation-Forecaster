@@ -50,7 +50,39 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+.textbox-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
 
+.cool-textbox {
+  width: 60%;
+  max-width: 600px;
+  min-height: 50px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  resize: none; /* Disable resize handle */
+  transition: border-color 0.3s;
+}
+
+.cool-textbox:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+}
+
+.character-counter {
+  text-align: right;
+  width: 60%;
+  max-width: 610px; /* Slightly larger to account for padding */
+  font-size: 14px;
+  color: #555;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
