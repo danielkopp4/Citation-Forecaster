@@ -6,7 +6,6 @@ from odds import Odds
 """
 Action Space: Invest in A, Invest in B, the null amount is determined by g - (A + B)
 Observation Space: g, O_a, O_b, eps?, P[W_t = A]?
-
 """
 
 def clamp(low, high, value):
