@@ -16,6 +16,12 @@ function HomePage() {
     // Here you could also send the text to a server if required
   };
 
+  useEffect(() => {
+    fetch("http://localhost:3001/api")
+      .then((res) => res.json())
+      .then((data) => setMessage(data.message));
+  }, []);
+
   return (
     <div>
       <div className="navbar">
