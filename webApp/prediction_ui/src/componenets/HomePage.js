@@ -1,19 +1,26 @@
 // src/HomePage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 
 function HomePage() {
   const [text, setText] = useState('');
   const [notification, setNotification] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleTextChange = (event) => {
     const textarea = event.target;
     setText(textarea.value);
   };
-
-  const handleSubmit = () => {
-    const wordCount = text.trim().split(/\s+/).length;
-    setNotification(`Word count: ${wordCount}. Servers were able to accept.`);
-    // Here you could also send the text to a server if required
+  const [responseMessage, setResponseMessage] = useState('');
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('/submit-text', { text });
+      setResponseMessage(response.data.message);
+    } catch (error) {
+      console.error('Error submitting text:', error);
+      setResponseMessage('Error submitting text');
+    }
   };
 
   useEffect(() => {
@@ -41,7 +48,7 @@ function HomePage() {
             rows={3}
           />
           <button onClick={handleSubmit} className="submit-button">Submit</button>
-          {notification && <div className="notification">{notification}</div>}
+          {responseMessage && <div className="notification">Server: {responseMessage}</div>}
         </div>
       </div>
     </div>
