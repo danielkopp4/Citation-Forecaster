@@ -8,8 +8,8 @@ from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.layers import Dense, LeakyReLU, Concatenate, BatchNormalization, Input
 from tensorflow.keras.regularizers import L2
 from tensorflow.keras.initializers import glorot_uniform
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.metrics import MeanAbsoluteError
+from tensorflow.keras.callbacks import LearningRateScheduler, EarlyStopping
+from tensorflow.keras.layers import LSTM, Dropout, Add, BatchNormalization
 import logging
 import traceback
 import configparser
@@ -64,9 +64,15 @@ class Forecaster:
 
         self.__compile_model()
         
+        self.lr_scheduler = LearningRateScheduler(self.scheduler)
+        self.early_stopping = EarlyStopping(monitor='val_loss', patience=3)
+        
         self._params['load_prev'] = load_prev
         if load_prev:
             self.__load_model()
+            
+    def scheduler(self, lr):
+        return lr * tf.math.exp(-0.1)  # Adjust decay rate as needed
 
     def __load_dataset(self):
         """
@@ -117,14 +123,16 @@ class Forecaster:
                 batch_size=self.batch_size,
                 epochs=self._params.get('epochs', 10),
                 verbose=0,
-                callbacks=[TrainingCallback(
-                    self._params['log_dir'],
-                    self._params['model_name'],
-                    plot_freq=self._params['plot_freq'],
-                    print_freq=self._params['print_freq'],
-                    checkpoint_freq=self._params['checkpoint_freq'],
-                    checkpoint_fn=lambda epoch: self.__save_model(epoch)
-                )]
+                callbacks=[self.lr_scheduler, self.early_stopping,
+                           TrainingCallback(
+                                self._params['log_dir'],
+                                self._params['model_name'],
+                                plot_freq=self._params['plot_freq'],
+                                print_freq=self._params['print_freq'],
+                                checkpoint_freq=self._params['checkpoint_freq'],
+                                checkpoint_fn=lambda epoch: self.__save_model(epoch)
+                            )
+                    ]
             )
 
             self.__save_model()
@@ -179,6 +187,7 @@ class Forecaster:
             # Apply LSTM layers with dropout and residual connections
             x = LSTM(dim, return_sequences=True)(x)
             x = Dropout(0.2)(x)  # Add dropout for regularization
+            x = BatchNormalization()(x)  # Add batch normalization 
             x = Add()([residual, x])  # Add residual connection
             residual = self.__residual_layer(dim, x, kernel_regularizer=L2(1))
 
