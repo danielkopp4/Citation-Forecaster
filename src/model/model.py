@@ -11,6 +11,19 @@ from tensorflow.keras.initializers import glorot_uniform
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics import MeanAbsoluteError
 import logging
+import traceback
+import configparser
+
+# Set up logger
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='model_log.log'
+)
+
+# Custom exception for model-related errors
+class ModelError(Exception):
+    pass
 
 class Forecaster:
     """
@@ -18,17 +31,31 @@ class Forecaster:
     """
     model_params = {}  # Class variable for model parameters
 
-    def __init__(self, params: dict) -> None:
-        """
-        Initialize the Forecaster with the provided parameters.
+    def __init__(self, config_file: str, load_prev: bool = False) -> None:
+        config = configparser.ConfigParser()
+        config.read(config_file)
 
-        Args:
-            params (dict): A dictionary of parameters for configuring the model and training.
+        model_params = config['ModelParams']
 
-        Returns:
-            None
-        """
-        self._params = params
+        # Parameter validation checks
+        required_params = ['batch_size', 'data_path', 'model_dim', 'learning_rate', 'beta_1', 'beta_2']
+        missing_params = [param for param in required_params if param not in model_params]
+        if missing_params:
+            raise ValueError(f"Missing required parameters: {', '.join(missing_params)}")
+
+        if not model_params.getint('batch_size') > 0:
+            raise ValueError("Batch size must be a positive integer")
+
+        # Initialize parameters
+        self._params = {
+            'batch_size': model_params.getint('batch_size'),
+            'data_path': model_params['data_path'],
+            'model_dim': list(map(int, model_params['model_dim'].split(','))),
+            'learning_rate': model_params.getfloat('learning_rate'),
+            'beta_1': model_params.getfloat('beta_1'),
+            'beta_2': model_params.getfloat('beta_2'),
+        }
+
         self.__load_dataset()
         self.__create_model()
 
@@ -36,6 +63,38 @@ class Forecaster:
             self._load_model()
 
         self.__compile_model()
+        
+        self._params['load_prev'] = load_prev
+        if load_prev:
+            self.__load_model()
+
+    def __load_dataset(self):
+        """
+        Load datasets for training, validation, and testing.
+        """
+        self._datasets = {
+            name: Dataset(os.path.join(self.data_path, name) + '.' + self._params['ds_format'], self.batch_size)
+            for name in ['train', 'val', 'test']
+        }
+        # Feature engineering - Lagged features
+        for ds_name, dataset in self._datasets.items():
+            dataset.df['lag_1'] = dataset.df['target'].shift(1)  # Example lagged feature
+            # ... (add more lagged features if needed)
+        # Extract validation data for monitoring during training
+        self._val_data = self._datasets['val'].data
+        self._inpt_shape = self._datasets['train'].shape()
+        self._output_shape = self._datasets['train'].output_shape()
+
+    def __residual_layer(self, units, x, kernel_regularizer=None):
+        """
+        Create a residual layer by combining a dense layer with the input.
+        """
+        x_skp = self.__dense_layer(units, x, kernel_regularizer=kernel_regularizer)
+        x_skp = self.__batch_norm(x_skp)
+        x_skp = self.__relu(x_skp)
+        x = Concatenate()([x, x_skp])
+        return self.__dense_layer(units, x, kernel_regularizer=kernel_regularizer)
+
 
     def fit(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Model:
         """
@@ -54,9 +113,9 @@ class Forecaster:
             self.keras_model.fit(
                 X_train,
                 y_train,
+                validation_data=(X_val, y_val),
                 batch_size=self.batch_size,
                 epochs=self._params.get('epochs', 10),
-                validation_data=(X_val, y_val),
                 verbose=0,
                 callbacks=[TrainingCallback(
                     self._params['log_dir'],
@@ -74,8 +133,9 @@ class Forecaster:
 
             return self.keras_model
         except Exception as e:
-            logging.error(f"Error during training: {e}")
-            return None
+            error_msg = f"Error during training: {e}. Traceback: {traceback.format_exc()}"
+            logging.error(error_msg)
+            raise ModelError(error_msg)
 
     @property
     def batch_size(self) -> int:
@@ -88,17 +148,6 @@ class Forecaster:
     @property
     def keras_model(self) -> Model:
         return self._model
-
-    def __load_dataset(self):
-        """
-        Load datasets for training, validation, and testing.
-        """
-        self._datasets = {
-            name: Dataset(os.path.join(self.data_path, name) + '.' + self._params['ds_format'], self.batch_size)
-            for name in ['train', 'val', 'test']
-        }
-        self._inpt_shape = self._datasets['train'].shape()
-        self._output_shape = self._datasets['train'].output_shape()
 
     def __dense_layer(self, units, x):
         """
@@ -118,24 +167,20 @@ class Forecaster:
         """
         return BatchNormalization()(x)
 
-    def __residual_layer(self, units, x):
-        """
-        Create a residual layer by combining a dense layer with the input.
-        """
-        x_skp = self.__dense_layer(units, x)
-        x_skp = self.__batch_norm(x_skp)
-        x_skp = self.__relu(x_skp)
-        return Concatenate()([x, x_skp])
-
     def __create_model(self):
         """
         Create the neural network model based on the provided configuration.
         """
         inpt = Input(shape=self._inpt_shape)
         x = inpt
+        residual = x  # Initialize residual connection
 
         for dim in self._params['model_dim']:
-            x = self.__residual_layer(dim, x)
+            # Apply LSTM layers with dropout and residual connections
+            x = LSTM(dim, return_sequences=True)(x)
+            x = Dropout(0.2)(x)  # Add dropout for regularization
+            x = Add()([residual, x])  # Add residual connection
+            residual = self.__residual_layer(dim, x, kernel_regularizer=L2(1))
 
         assert len(self._output_shape) == 1
         x = Dense(self._output_shape[0], kernel_regularizer=L2(1), kernel_initializer="he_uniform")(x)
@@ -184,17 +229,17 @@ class Forecaster:
         """
         Compile the model with the specified optimizer, loss function, and metrics.
         """
-        optimizer = Adam(
-            self._params['learning_rate'],
-            self._params['beta_1'],
-            self._params['beta_2']
+        # Experiment with different optimizers (e.g., RMSprop, Adagrad, Nadam)
+        optimizer = tf.keras.optimizers.RMSprop(
+            learning_rate=self._params['learning_rate'],
+            momentum=0.9  # Adjust momentum if needed
         )
 
         try:
             self.keras_model.compile(
                 optimizer=optimizer,
                 loss='mse',
-                metrics=[MeanAbsoluteError()]
+                metrics=[tf.keras.metrics.MeanAbsoluteError()]
             )
         except Exception as e:
             logging.error(f"Error compiling model: {e}")
@@ -263,7 +308,6 @@ class Forecaster:
             logging.error(f"Error during prediction: {e}")
             return None
 
-# Example of injecting datasets using dependency injection
 def get_forecaster(params: dict, datasets: dict) -> Forecaster:
     """ 
     Create a Forecaster instance with the provided parameters and injected datasets.
