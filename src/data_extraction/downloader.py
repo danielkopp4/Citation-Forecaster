@@ -428,6 +428,8 @@ if __name__ == '__main__':
         file_name = sys.argv[1]
         params = load_params(file_name)
         await download_data(params)
+        with open("status.txt", "w") as file:
+            file.write("DONE")
         
     
     try:
