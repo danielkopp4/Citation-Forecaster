@@ -1,11 +1,11 @@
 import React from 'react';
-import './AboutPage.css'; // Assuming you have a separate CSS file for styling
+import './AboutPage.css';
 
 function AboutPage() {
   return (
     <div className="about-container">
       <h1>About Our Project</h1>
-      <p>This project is a web application designed to ... [add your project description here]</p>
+      <p>This project is a web application designed to</p>
       <p>Key Features:</p>
       <ul>
       This project analyzes publications to predict the number of citations of a publication. This work introduces a dataset that contains the publications from the [arxiv dataset](https://www.kaggle.com/datasets/Cornell-University/arxiv) and combines it with the citation count from the [cross ref API](https://www.crossref.org/services/cited-by/). The download script merges these two sources to get a novel dataset that can be used to determine relationships in acedemic citations. 
