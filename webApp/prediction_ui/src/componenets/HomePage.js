@@ -13,10 +13,12 @@ function HomePage() {
     setText(textarea.value);
   };
   const [responseMessage, setResponseMessage] = useState('');
+  const [wordCount, setWordCount] = useState('');
   const handleSubmit = async () => {
     try {
       const response = await axios.post('http://localhost:8000/submit-text', { text });
       setResponseMessage(response.data.message);
+      setWordCount(response.data.wordCount);
     } catch (error) {
       console.error('Error submitting text:', error);
       setResponseMessage('Error submitting text');
@@ -48,7 +50,7 @@ function HomePage() {
             rows={3}
           />
           <button onClick={handleSubmit} className="submit-button">Submit</button>
-          {responseMessage && <div className="notification">Server: {responseMessage}</div>}
+          {responseMessage && <div className="notification">Server: {responseMessage}</div> && wordCount !== null && <div>Word Count: {wordCount}</div>}
         </div>
       </div>
 
