@@ -1,31 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
-import HomePage from './componenets/HomePage';
-import textBox from './componenets/textBox'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './componenets/HomePage'; // Your existing home page component
+import AboutPage from './componenets/AboutPage'; // Your new about page component
 
 function App() {
   return (
-    <div className="App">
-      <HomePage />
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */
-      }
-      <textBox />{
-        
-      }
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
+    </Router>
   );
 }
 
