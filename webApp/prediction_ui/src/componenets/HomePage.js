@@ -15,7 +15,7 @@ function HomePage() {
   const [responseMessage, setResponseMessage] = useState('');
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('/submit-text', { text });
+      const response = await axios.post('http://localhost:8000/submit-text', { text });
       setResponseMessage(response.data.message);
     } catch (error) {
       console.error('Error submitting text:', error);
@@ -24,7 +24,7 @@ function HomePage() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3001/api")
+    fetch("http://localhost:8000/message")
       .then((res) => res.json())
       .then((data) => setMessage(data.message));
   }, []);
@@ -50,6 +50,10 @@ function HomePage() {
           <button onClick={handleSubmit} className="submit-button">Submit</button>
           {responseMessage && <div className="notification">Server: {responseMessage}</div>}
         </div>
+      </div>
+
+      <div className="Message">
+        <h1>{message}</h1>
       </div>
     </div>
   );
