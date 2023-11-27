@@ -1,0 +1,31 @@
+.timeline-container {
+    /* Mimic About page style */
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    color: black;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .timeline {
+    border-left: 2px solid black;
+    margin-left: 20px;
+    padding: 10px;
+  }
+  
+  .timeline-event {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .timeline-event .event-content {
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+    display: inline-block;
+    margin-left: 20px;
+  }
+  
+  /* Add more styles as needed */
+  
