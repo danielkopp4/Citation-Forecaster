@@ -159,10 +159,13 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-data/
+data/*/*.json
+data/*/*.npy
 models/
 logs/
 .DS_Store
 .vscode/
 .logs/
 .kaggle/
+lines.txt
+pid.txt

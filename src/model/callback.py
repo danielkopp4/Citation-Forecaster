@@ -59,7 +59,7 @@ class TrainingCallback(Callback):
             print(f'[{key}: {logs[key]:0.2f}] ', end='')
 
         now_time = datetime.now()
-        print(f'[Time: {now_time.strftime("%H:%M:%S")}] [Day: {now_time.strftime("%m/%d/%Y")}]')
+        print(f'[Time: {now_time.strftime("%H:%M:%S")}] [Day: {now_time.strftime("%m/%d/%Y")}]', flush=True)
 
 
     def checkpoint(self, epoch):
@@ -68,7 +68,7 @@ class TrainingCallback(Callback):
 
 
     def on_epoch_end(self, epoch, logs=None):
-        self._train_info: pd.DataFrame = self._train_info.append(pd.DataFrame(self.get_datapoint(epoch, logs)))
+        self._train_info: pd.DataFrame = pd.concat([self._train_info, pd.DataFrame.from_records(self.get_datapoint(epoch, logs))])
         if epoch % self._print_freq == 0:
             self.print_log(logs, epoch)
 

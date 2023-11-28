@@ -1,8 +1,5 @@
 # Citation Prediction Engine
 
-To download the code run `git clone git@github.com:danielkopp4/citation_prediction.git` or `git clone https://github.com/danielkopp4/citation_prediction.git` for HTTP.
-
-NOTE: Assumes using Unix-based operating system
 
 ## Downloading
 `./download.sh` to download the data from kaggle. This requires a Kaggle API key in order to download. The url and target directory information is stored in the `download_config.json` file. The number of citations are included with the clone to avoid rate limiting.
