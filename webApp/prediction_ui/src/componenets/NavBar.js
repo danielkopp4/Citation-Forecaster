@@ -16,6 +16,8 @@ const NavBar= () =>{
       };
     return (
     <div>
+        
+        <div className='App-header'><h1>Citation Forcaster</h1></div>
         <div className="navbar">
             <button onClick={gotoHome}>HomePage</button>
             <button onClick={gotoAbout}>About</button>

@@ -5,6 +5,7 @@ import axios from 'axios';
 
 function HomePage() {
   const [text, setText] = useState('');
+  const [title, setTitle] = useState('');
   const [notification, setNotification] = useState('');
   const [message, setMessage] = useState('');
 
@@ -14,11 +15,14 @@ function HomePage() {
   };
   const [responseMessage, setResponseMessage] = useState('');
   const [wordCount, setWordCount] = useState('');
+  const [titleWordCount, setTitleWordCount] = useState('');
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/submit-text', { text });
-      setResponseMessage(response.data.message);
-      setWordCount(response.data.wordCount);
+      const response = await axios.post('http://localhost:8000/submit-text', { text, title });
+      const { message, wordCount, wordCountTitle } = response.data;
+      setResponseMessage(message);
+      setWordCount(wordCount);
+      setTitleWordCount(wordCountTitle);
     } catch (error) {
       console.error('Error submitting text:', error);
       setResponseMessage('Error submitting text');
@@ -37,19 +41,29 @@ function HomePage() {
       <div className="content">
         <div className="textbox-container">
           <textarea
-            placeholder="Type your paragraph here..."
+            placeholder="Type your Title here..."
+            value={title}
+            onChange={(t) => {
+              setTitle(t.target.value );
+            }}
+            className="other-cool-textbox"
+            rows={3}
+          />
+
+          <textarea
+            placeholder="Type your Abstract here..."
             value={text}
             onChange={handleTextChange}
             className="cool-textbox"
             rows={3}
           />
           <button onClick={handleSubmit} className="submit-button">Submit</button>
-          {responseMessage && <div className="notification">Server: {responseMessage}</div> && wordCount !== null && <div>Word Count: {wordCount}</div>}
+          {responseMessage && <div className="notification">Server: {responseMessage}</div> && wordCount !== null && <div>Title Word count: {titleWordCount}, Absrtact Word Count: {wordCount}</div>}
         </div>
+        
       </div>
 
       <div className="Message">
-        <h1>{message}</h1>
       </div>
     </div>
   );

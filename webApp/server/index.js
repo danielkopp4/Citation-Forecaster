@@ -15,12 +15,14 @@ app.get("/message", (req, res) => {
 }); 
 
 app.post('/submit-text', (req, res) => {
-  console.log('Received text:', req.body.text);
+  const { text, title } = req.body;
+
+  console.log('Received text:', {text, title});
 
   const pythonProcess = spawn('python3', ['word_count.py']);
   let scriptOutput = '';
 
-  pythonProcess.stdin.write(req.body.text);
+  pythonProcess.stdin.write(text);
   pythonProcess.stdin.end();
 
   pythonProcess.stdout.on('data', (data) => {
@@ -30,7 +32,7 @@ app.post('/submit-text', (req, res) => {
   pythonProcess.stdout.on('end', () => {
     try {
       const parsedOutput = JSON.parse(scriptOutput);
-      res.json({ message: 'Received', wordCount: parsedOutput.word_count });
+      res.json({ message: 'Received', wordCount: parsedOutput.word_count, wordCountTitle: (title.trim().split(" ").length )});
     } catch (error) {
       console.error('Error parsing Python script output:', error);
       // Send an error response only if no response has been sent
