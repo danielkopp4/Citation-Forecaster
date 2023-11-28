@@ -4,12 +4,7 @@ import './TimelinePage.css';
 function TimelinePage() {
   return (
     <div>
-      <div className="navbar">
-          <button onClick={() => console.log("Button 1 clicked!")}>HomePage</button>
-          <button onClick={() => console.log("Button 2 clicked!")}>Timeline</button>
-          <button onClick={() => console.log("Button 3 clicked!")}>About</button>
-          <button onClick={() => console.log("Button 4 clicked!")}>Credits</button>
-      </div>
+      
       <div className="timeline-container">
         <h1>Project Timeline</h1>
         <div className="timeline">

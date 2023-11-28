@@ -4,12 +4,7 @@ import './AboutPage.css';
 function AboutPage() {
   return (
     <div>
-        <div className="navbar">
-            <button onClick={() => console.log("Button 1 clicked!")}>HomePage</button>
-            <button onClick={() => console.log("Button 2 clicked!")}>History</button>
-            <button onClick={() => console.log("Button 3 clicked!")}>About</button>
-            <button onClick={() => console.log("Button 4 clicked!")}>Credits</button>
-        </div>
+        
         <div className="about-container">
         <h1>About Our Project</h1>
         <p>"ReadMe"</p>
