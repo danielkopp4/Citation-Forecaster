@@ -13,35 +13,31 @@ function TimelinePage() {
             <div className="event-content">
               <h2>Citation Dataset</h2>
               <p>Date: Jan 2023-present</p>
-              <p>Description of event 1...</p>
+              {/*<p>Description of event 1...</p>*/}
             </div>
           </div>
           <div className="timeline-event">
             <div className="event-content">
               <h2>Initial Trained Model</h2>
               <p>Date: Jan 2023 - May 2023</p>
-              <p>Description of event 2...</p>
             </div>
           </div>
           <div className="timeline-event">
             <div className="event-content">
               <h2>Model Optimization</h2>
               <p>Date: Aug 2023 - present</p>
-              <p>Description of event 2...</p>
             </div>
           </div>
           <div className="timeline-event">
             <div className="event-content">
               <h2>Postgress DB</h2>
               <p>Date: Aug 2023 - present</p>
-              <p>Description of event 2...</p>
             </div>
           </div>
           <div className="timeline-event">
             <div className="event-content">
               <h2>React UI</h2>
               <p>Date: Aug 2023 - present</p>
-              <p>Description of event 2...</p>
             </div>
           </div>
         </div>
