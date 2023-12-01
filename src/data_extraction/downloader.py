@@ -4,7 +4,6 @@ import numpy as np
 from fp.fp import FreeProxy
 import time
 from typing import List
-# from requests.exceptions import ConnectionError
 import traceback
 from src.shared.utils import load_params
 import opendatasets as od
@@ -21,7 +20,7 @@ import anyio
 import httpx
 
 max_cutoff = np.inf
-max_threads = 1000
+max_threads = 10000
 batch_per_thread = 1
 retry_max = 2
 
@@ -59,7 +58,7 @@ def get_dois(params: dict, engine: Engine, limit=None) -> List[str]:
 
 def get_remaining_dois(params: dict, engine: Engine, limit=None) -> List[str]:
     limit_text = f"LIMIT {limit}" if limit else ""
-    command = text(f"SELECT doi from {params['paper_metadata_table']} WHERE doi is not NULL EXCEPT SELECT doi FROM {params['citation_count_table']} {limit_text};")
+    command = text(f"WITH sq as (SELECT doi from {params['paper_metadata_table']} WHERE doi is not NULL EXCEPT SELECT doi FROM {params['citation_count_table']} {limit_text}) SELECT doi from sq order by random();")
     print("executing:", command)
     with engine.connect() as conn:
         r = conn.execute(command)
