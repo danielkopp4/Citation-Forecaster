@@ -1,0 +1,8 @@
+.about-container {
+    background-image: url('./background.jpg');
+    background-size: cover;
+    background-position: center;
+    color: black;
+    padding: 20px;
+    text-align: center;
+  }
