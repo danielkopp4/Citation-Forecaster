@@ -32,6 +32,15 @@ class Forecaster:
     model_params = {}  # Class variable for model parameters
 
     def __init__(self, config_file: str, load_prev: bool = False) -> None:
+        """
+        Initializes the Forecaster class with model parameters and datasets.
+
+        Args:
+            config_file (str): Path to the configuration file.
+            load_prev (bool): Flag to load a previously trained model.
+        Raises:
+            ValueError: If required parameters are missing or invalid.
+        """
         config = configparser.ConfigParser()
         config.read(config_file)
 
@@ -64,15 +73,42 @@ class Forecaster:
 
         self.__compile_model()
         
-        self.lr_scheduler = LearningRateScheduler(self.scheduler)
+        self.log_dir = os.path.join('logs', self._params['model_name'])  # Directory for TensorBoard logs
+        self.tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=self.log_dir, histogram_freq=1)
+
+        
+        self.lr_scheduler = LearningRateScheduler(cosine_decay_scheduler(self._params['learning_rate'], self._params.get('epochs', 10)))
         self.early_stopping = EarlyStopping(monitor='val_loss', patience=3)
         
         self._params['load_prev'] = load_prev
         if load_prev:
             self.__load_model()
             
-    def scheduler(self, lr):
-        return lr * tf.math.exp(-0.1)  # Adjust decay rate as needed
+    def cosine_decay_scheduler(initial_lr, total_epochs):
+        """
+        Custom learning rate scheduler implementing cosine decay.
+
+        Args:
+            initial_lr (float): Initial learning rate.
+            total_epochs (int): Total number of epochs.
+        Returns:
+            function: Scheduler function.
+        """
+        def scheduler(epoch):
+            """
+            Cosine decay scheduler function.
+
+            Args:
+                epoch (int): Current epoch.
+            Returns:
+                float: Updated learning rate.
+            """
+            cosine_decay = 0.5 * (1 + np.cos(np.pi * epoch / total_epochs))
+            updated_lr = initial_lr * cosine_decay
+            return updated_lr
+
+        return scheduler
+
 
     def __load_dataset(self):
         """
@@ -85,7 +121,6 @@ class Forecaster:
         # Feature engineering - Lagged features
         for ds_name, dataset in self._datasets.items():
             dataset.df['lag_1'] = dataset.df['target'].shift(1)  # Example lagged feature
-            # ... (add more lagged features if needed)
         # Extract validation data for monitoring during training
         self._val_data = self._datasets['val'].data
         self._inpt_shape = self._datasets['train'].shape()
@@ -101,6 +136,21 @@ class Forecaster:
         x = Concatenate()([x, x_skp])
         return self.__dense_layer(units, x, kernel_regularizer=kernel_regularizer)
 
+    def __create_residual_blocks(self):
+        """
+        Create residual blocks in the model based on model_dim parameter.
+        """
+        inpt = Input(shape=self._inpt_shape)
+        x = inpt
+        residual = x  # Initialize residual connection
+
+        for dim in self._params['model_dim']:
+            # Apply LSTM layers with dropout and residual connections
+            x = LSTM(dim, return_sequences=True)(x)
+            x = Dropout(0.2)(x)  # Add dropout for regularization
+            x = BatchNormalization()(x)  # Add batch normalization
+            x = Add()([residual, x])  # Add residual connection
+            residual = self.__residual_layer(dim, x, kernel_regularizer=L2(1))
 
     def fit(self, X_train: np.ndarray, y_train: np.ndarray, X_val: np.ndarray, y_val: np.ndarray) -> Model:
         """
@@ -123,14 +173,17 @@ class Forecaster:
                 batch_size=self.batch_size,
                 epochs=self._params.get('epochs', 10),
                 verbose=0,
-                callbacks=[self.lr_scheduler, self.early_stopping,
-                           TrainingCallback(
-                                self._params['log_dir'],
-                                self._params['model_name'],
-                                plot_freq=self._params['plot_freq'],
-                                print_freq=self._params['print_freq'],
-                                checkpoint_freq=self._params['checkpoint_freq'],
-                                checkpoint_fn=lambda epoch: self.__save_model(epoch)
+                callbacks=[
+                    self.lr_scheduler,
+                    self.early_stopping,
+                    self.tensorboard_callback,  # Add TensorBoard callback
+                    TrainingCallback(
+                        self._params['log_dir'],
+                        self._params['model_name'],
+                        plot_freq=self._params['plot_freq'],
+                        print_freq=self._params['print_freq'],
+                        checkpoint_freq=self._params['checkpoint_freq'],
+                        checkpoint_fn=lambda epoch: self.__save_model(epoch)
                             )
                     ]
             )
@@ -179,17 +232,7 @@ class Forecaster:
         """
         Create the neural network model based on the provided configuration.
         """
-        inpt = Input(shape=self._inpt_shape)
-        x = inpt
-        residual = x  # Initialize residual connection
-
-        for dim in self._params['model_dim']:
-            # Apply LSTM layers with dropout and residual connections
-            x = LSTM(dim, return_sequences=True)(x)
-            x = Dropout(0.2)(x)  # Add dropout for regularization
-            x = BatchNormalization()(x)  # Add batch normalization 
-            x = Add()([residual, x])  # Add residual connection
-            residual = self.__residual_layer(dim, x, kernel_regularizer=L2(1))
+        inpt, x = self.__create_residual_blocks()
 
         assert len(self._output_shape) == 1
         x = Dense(self._output_shape[0], kernel_regularizer=L2(1), kernel_initializer="he_uniform")(x)
@@ -276,13 +319,17 @@ class Forecaster:
                 epochs=self._params.get('epochs', 10),
                 validation_data=self._datasets['val'].data,
                 verbose=0,
-                callbacks=[TrainingCallback(
-                    self._params['log_dir'],
-                    self._params['model_name'],
-                    plot_freq=self._params['plot_freq'],
-                    print_freq=self._params['print_freq'],
-                    checkpoint_freq=self._params['checkpoint_freq'],
-                    checkpoint_fn=lambda epoch: self.__save_model(epoch)
+                callbacks=[
+                    self.lr_scheduler,
+                    self.early_stopping,
+                    self.tensorboard_callback,  # Add TensorBoard callback
+                    TrainingCallback(
+                        self._params['log_dir'],
+                        self._params['model_name'],
+                        plot_freq=self._params['plot_freq'],
+                        print_freq=self._params['print_freq'],
+                        checkpoint_freq=self._params['checkpoint_freq'],
+                        checkpoint_fn=lambda epoch: self.__save_model(epoch)
                 )]
             )
 
